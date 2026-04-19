@@ -6,7 +6,7 @@
 
 
 
-# 👩‍💻 Anggota Tim
+# 👩🏻‍🍳 Anggota Tim
 
 | Isrina Luthfiah | Angela Caroline Budiman | Zahraturramadhani | Aliyah Azzah Sekedang |
 |---------------|------------|------|--------------------|
@@ -18,11 +18,8 @@
 # 🏪 Profil Mitra
 
 <p align="justify">
-Star Bud merupakan usaha yang bergerak di bidang penjualan makanan dan minuman ringan. Usaha ini menyediakan berbagai jenis minuman serta makanan ringan seperti singkong goreng dan camilan lainnya yang disajikan secara langsung kepada pelanggan. Dalam kegiatan operasional sehari-hari, proses pencatatan pesanan dan pengelolaan stok bahan baku masih dilakukan secara manual sehingga sering menimbulkan beberapa kendala dalam pelayanan dan pengelolaan usaha. Seiring meningkatnya jumlah pelanggan, mitra membutuhkan sebuah sistem yang dapat membantu mengelola pesanan, memantau stok bahan baku, serta melihat laporan penjualan secara lebih terorganisir agar operasional usaha dapat berjalan lebih efektif dan efisien.
+Star Bud merupakan usaha yang bergerak di bidang penjualan makanan dan minuman ringan. Usaha ini menyediakan berbagai jenis minuman serta makanan ringan seperti singkong goreng dan camilan lainnya yang disajikan secara langsung kepada pelanggan.
 </p>
-
- ## 👩🏻‍🍳🍪 Informasi Ringkas Mengenai Mitra
-
 
  ☘︎ **Nama Usaha** : Star Bud  
  ✦ **Jenis Usaha** : Makanan dan Minuman Ringan  
