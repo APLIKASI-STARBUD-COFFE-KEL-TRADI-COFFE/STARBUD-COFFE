@@ -45,6 +45,12 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
 
 ## 1️⃣ Login 🔐
 
+a.  🙎‍♂️ Login Admin
+
+
+b. 👩‍💻  Login Karyawan / Kasir
+  
+
 
 
 
