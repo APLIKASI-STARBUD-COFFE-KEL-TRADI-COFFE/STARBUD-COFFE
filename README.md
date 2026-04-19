@@ -1,7 +1,12 @@
-<img width="1200" height="400" alt="image" src="https://github.com/user-attachments/assets/d3e95b77-af51-43ec-8f05-5285d82d64ef" />
+# ☕ StarBud 
+
+<p align="center">
+  <img width="1200" height="600" alt="Screenshot 2026-04-08 014213" src="https://github.com/user-attachments/assets/d3e95b77-af51-43ec-8f05-5285d82d64ef" /><br>
+  <b> Aplikasi Manajemen Operasional & Stok 📱📝 </b>
+</p>
 
 
-# 👩‍💻 Kontributor 
+## 👩‍💻 Kontributor 
 
 | Isrina Luthfiah | Angela Caroline Budiman | Zahraturramadhani | Aliyah Azzah Sekedang |
 |---------------|------------|------|--------------------|
