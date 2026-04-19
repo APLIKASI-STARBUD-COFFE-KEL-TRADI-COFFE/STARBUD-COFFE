@@ -27,25 +27,16 @@ Star Bud merupakan usaha yang bergerak di bidang penjualan makanan dan minuman r
  ✎ **Kebutuhan Mitra** : Sistem digital untuk mengelola pesanan, stok bahan baku, dan laporan penjualan  
 
  
-## 📝 𝖣𝖾𝗌𝗄𝗋𝗂𝗉𝗌𝗂 𝖠𝗉𝗅𝗂𝗄𝖺𝗌𝗂 
+## 📝 Deskripsi Aplikasi
 
 
 <p align="justify">
 Aplikasi <b>Star Bud</b> merupakan aplikasi mobile yang dikembangkan untuk membantu usaha makanan dan minuman ringan dalam mengelola operasional secara lebih efektif dan terstruktur. Aplikasi ini memungkinkan karyawan mencatat pesanan pelanggan secara digital sehingga dapat mengurangi kesalahan pencatatan seperti pesanan ganda yang sering terjadi pada sistem manual. Selain itu, aplikasi ini juga menyediakan sistem pemantauan stok bahan baku yang akan berkurang secara otomatis setiap kali transaksi dilakukan sehingga pemilik usaha dapat mengetahui kondisi stok secara lebih akurat. Melalui fitur laporan penjualan harian, pemilik usaha juga dapat memantau aktivitas penjualan dan perkembangan omzet dengan lebih mudah. Aplikasi ini dikembangkan menggunakan Flutter sebagai framework mobile dan Supabase sebagai backend database untuk mengelola data pengguna, transaksi, serta stok bahan baku secara terintegrasi.
 </p>
 
-<p>
 
-<img src="https://img.shields.io/badge/FLUTTER-02569B?style=for-the-badge&logo=flutter&logoColor=white"/>
-<img src="https://img.shields.io/badge/DART-0175C2?style=for-the-badge&logo=dart&logoColor=white"/>
-<img src="https://img.shields.io/badge/SUPABASE-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"/>
-<img src="https://img.shields.io/badge/STATE%20MANAGEMENT-setState-blueviolet?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/NAVIGATION-Navigator-blue?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/ENV-flutter__dotenv-yellow?style=for-the-badge"/>
 
-</p>
-
-## 🌟 𝖥𝗂𝗍𝗎𝗋 𝖠𝗉𝗅𝗂𝗄𝖺𝗌𝗂
+## 🌟 Fitur Aplikasi
 
 <p align="justify">
 Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan operasional usaha makanan dan minuman secara lebih terstruktur. Fitur utama dalam aplikasi ini mengacu pada konsep CRUD (Create, Read, Update, Delete) yang menjadi dasar dalam pengelolaan data seperti pesanan, stok bahan baku, dan data pengguna. 
@@ -62,7 +53,23 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
 
 
 
+## 📲 𝖶𝗂𝖽𝗀𝖾𝗍 𝖸𝖺𝗇𝗀 𝖣𝗂𝗀𝗎𝗇𝖺𝗄𝖺𝗇
 
+## 🗄️ 𝖣𝖺𝗍𝖺𝖻𝖺𝗌𝖾
+
+## ⚙️ 𝖳𝖾𝗄𝗇𝗈𝗅𝗈𝗀𝗂 
+
+
+<p>
+
+<img src="https://img.shields.io/badge/FLUTTER-02569B?style=for-the-badge&logo=flutter&logoColor=white"/>
+<img src="https://img.shields.io/badge/DART-0175C2?style=for-the-badge&logo=dart&logoColor=white"/>
+<img src="https://img.shields.io/badge/SUPABASE-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"/>
+<img src="https://img.shields.io/badge/STATE%20MANAGEMENT-setState-blueviolet?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/NAVIGATION-Navigator-blue?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/ENV-flutter__dotenv-yellow?style=for-the-badge"/>
+
+</p>
 
 
 
