@@ -6,7 +6,7 @@
 
 
 
-# 👩🏻‍🍳 Anggota Tim
+## 👩🏻‍🍳 𝖠𝗇𝗀𝗀𝗈𝗍𝖺 𝖳𝗂𝗆
 
 | Isrina Luthfiah | Angela Caroline Budiman | Zahraturramadhani | Aliyah Azzah Sekedang |
 |---------------|------------|------|--------------------|
@@ -15,7 +15,7 @@
 | <div align="center">Sistem Informasi A '24</div> | <div align="center">Sistem Informasi A '24</div> | <div align="center">Sistem Informasi A '24</div> | <div align="center">Sistem Informasi A '24</div> |
 | <div align="center"><a href="https://github.com/rinaaluthfiah"><img src="https://img.shields.io/badge/GitHub-Isrina-grey?style=for-the-badge&logo=github"></a></div> | <div align="center"><a href="https://github.com/angiee24"><img src="https://img.shields.io/badge/GitHub-Angela-grey?style=for-the-badge&logo=github"></a></div> | <div align="center"><a href="https://github.com/Zahraramadhani014"><img src="https://img.shields.io/badge/GitHub-Zahra-grey?style=for-the-badge&logo=github"></a></div> | <div align="center"><a href="https://github.com/aliyah06667"><img src="https://img.shields.io/badge/GitHub-Aliyah-grey?style=for-the-badge&logo=github"></a></div> |
 
-# 🏪 Profil Mitra
+## 🏪 𝖨𝗇𝖿𝗈𝗋𝗆𝖺𝗌𝗂 𝖱𝗂𝗇𝗀𝗄𝖺𝗌 𝖬𝗂𝗍𝗋𝖺
 
 <p align="justify">
 Star Bud merupakan usaha yang bergerak di bidang penjualan makanan dan minuman ringan. Usaha ini menyediakan berbagai jenis minuman serta makanan ringan seperti singkong goreng dan camilan lainnya yang disajikan secara langsung kepada pelanggan.
@@ -27,7 +27,7 @@ Star Bud merupakan usaha yang bergerak di bidang penjualan makanan dan minuman r
  ✎ **Kebutuhan Mitra** : Sistem digital untuk mengelola pesanan, stok bahan baku, dan laporan penjualan  
 
  
-# 📜 Deskripsi Aplikasi 
+## 📝 𝖣𝖾𝗌𝗄𝗋𝗂𝗉𝗌𝗂 𝖠𝗉𝗅𝗂𝗄𝖺𝗌𝗂 
 
 
 <p align="justify">
@@ -45,16 +45,15 @@ Aplikasi <b>Star Bud</b> merupakan aplikasi mobile yang dikembangkan untuk memba
 
 </p>
 
-
-# 🌟 Fitur Aplikasi Star Bud
+## 🌟 𝖥𝗂𝗍𝗎𝗋 𝖠𝗉𝗅𝗂𝗄𝖺𝗌𝗂
 
 <p align="justify">
 Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan operasional usaha makanan dan minuman secara lebih terstruktur. Fitur utama dalam aplikasi ini mengacu pada konsep CRUD (Create, Read, Update, Delete) yang menjadi dasar dalam pengelolaan data seperti pesanan, stok bahan baku, dan data pengguna. 
   
 <p>
 
+## 1️⃣ Login 🔐
 
-## 1️⃣ Login  🔐 ##
 
 
 
