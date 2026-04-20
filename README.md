@@ -21,7 +21,7 @@
 Star Bud merupakan usaha yang bergerak di bidang penjualan makanan ringan dan minuman tradisonal. Usaha ini menyediakan berbagai jenis minuman serta makanan ringan seperti singkong goreng dan camilan lainnya yang disajikan secara langsung kepada pelanggan. Sejak didirikan pada tahun 2022, StarBud telah menjalankan kegiatan usaha dengan melayani pelanggan dengan manual dan secara langsung di tempat.
 </p>
 
-☘︎ **Nama Usaha**   : Star Bud  
+☘︎ **Nama Usaha**   : StarBud  
 
 ✦ **Jenis Usaha**  : Makanan dan Minuman Ringan  
 
@@ -84,6 +84,67 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
 |---|---|
 | <image src="https://github.com/user-attachments/assets/5b59666e-e6ec-4eee-93af-0cf1140f1245" width="510"/> | <image src="https://github.com/user-attachments/assets/af0e1607-06a2-4671-ae6d-2d3b60a3bfd7" width="500"/> |
 
+## 📁 Struktur Folder
+
+    /
+    ├── android/                ← konfigurasi dan build aplikasi Android
+    ├── ios/                    ← konfigurasi build aplikasi iOS
+    ├── linux/                  ← build aplikasi untuk Linux
+    ├── macos/                  ← build aplikasi untuk macOS
+    ├── windows/                ← build aplikasi untuk Windows
+    ├── web/                    ← build aplikasi versi web
+    │
+    ├── assets/
+    │   └── images/             ← menyimpan gambar atau aset aplikasi
+    │
+    ├── lib/
+    │   ├── main.dart           ← file utama untuk menjalankan aplikasi
+    │
+    │   ├── config/             ← konfigurasi aplikasi
+    │   │   └── supabase_config.dart
+    │
+    │   ├── models/             ← model atau struktur data
+    │   │   ├── category_model.dart
+    │   │   ├── menu_model.dart
+    │   │   ├── order_model.dart
+    │   │   ├── stock_model.dart
+    │   │   └── user_model.dart
+    │
+    │   ├── pages/              ← halaman utama aplikasi
+    │   │   ├── welcome_page.dart
+    │   │   ├── login_page.dart
+    │   │   ├── dashboard_page.dart
+    │   │   ├── menu_page.dart
+    │   │   ├── category_page.dart
+    │   │   ├── stok_page.dart
+    │   │   ├── transaksi_page.dart
+    │   │   ├── transaksi_history_page.dart
+    │   │   ├── laporan_page.dart
+    │   │   └── user_page.dart
+    │
+    │   ├── services/           ← penghubung aplikasi dengan database
+    │   │   ├── auth_service.dart
+    │   │   ├── category_service.dart
+    │   │   ├── menu_service.dart
+    │   │   ├── order_service.dart
+    │   │   ├── recipe_service.dart
+    │   │   ├── stock_service.dart
+    │   │   └── user_service.dart
+    │
+    │   └── widgets/            ← komponen UI yang dapat digunakan ulang
+    │       └── custom_button.dart
+    │
+    ├── .env                    ← konfigurasi Supabase
+    ├── .gitignore              ← file yang tidak ikut diupload
+    ├── .metadata               ← metadata project Flutter
+    ├── README.md               ← dokumentasi project
+    ├── analysis_options.yaml   ← aturan penulisan kode
+    ├── devtools_options.yaml   ← konfigurasi DevTools
+    ├── pubspec.yaml            ← konfigurasi dependencies Flutter
+    └── pubspec.lock            ← daftar versi package
+
+
+## 🗄️ 𝖣𝖺𝗍𝖺𝖻𝖺𝗌𝖾
 
 
 ## 🧩 Implementasi Widget 
