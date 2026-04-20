@@ -106,27 +106,27 @@ d.  Pencatatan Pesanan ✍️
 
 e.  Laporan Penjualan 📑
 
-<image src="https://github.com/user-attachments/assets/4eb9fc53-4fa1-48c0-a675-f2d34d203b20" width="540"/>
+<image src="https://github.com/user-attachments/assets/4eb9fc53-4fa1-48c0-a675-f2d34d203b20" width="530"/>
 
 f. Manajemen User 
 
-<image src="https://github.com/user-attachments/assets/a08f3a36-9de7-42dc-aa52-944638918b4e" width="540"/>
+<image src="https://github.com/user-attachments/assets/a08f3a36-9de7-42dc-aa52-944638918b4e" width="530"/>
 
 ## 2️⃣  Tampilan Fitur Pegawai/Kasir
 
 a. Login Pegawai 🔒
 
- <image src="https://github.com/user-attachments/assets/a3444cd5-45bd-48e2-8267-b4724c0ce884" width="550"/>
+ <image src="https://github.com/user-attachments/assets/a3444cd5-45bd-48e2-8267-b4724c0ce884" width="540"/>
 
 
 b.  Beranda Pegawai 🎛️
 
- <image src="https://github.com/user-attachments/assets/f792951c-a2ce-46e3-a0ce-518c09360ba5" width="550"/>
+ <image src="https://github.com/user-attachments/assets/f792951c-a2ce-46e3-a0ce-518c09360ba5" width="540"/>
 
 
  c. Pencatatan Pesanan ✍️
 
- <image src="https://github.com/user-attachments/assets/06347db8-b0f5-4308-995c-302012c351bc" width="550"/>
+ <image src="https://github.com/user-attachments/assets/06347db8-b0f5-4308-995c-302012c351bc" width="540"/>
 
 
 
