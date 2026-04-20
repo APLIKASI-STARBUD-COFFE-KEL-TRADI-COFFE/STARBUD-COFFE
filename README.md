@@ -1,7 +1,9 @@
-# ☕𝐒𝐭𝐚𝐫𝐛𝐮𝐝 𝐂𝐨𝐟𝐟𝐞 *ੈ✩‧
+# <p align="center"> ☕🍪 𝐒𝐓𝐀𝐑𝐁𝐔𝐃 𝐂𝐎𝐅𝐅𝐄𝐄 🍪☕
+
+<p align="center"><em>Aplikasi Manajemen Operasional & Stok</em></p>
+
 <p align="center">
-  <img width="1200" height="600" alt="Screenshot 2026-04-08 014213" src="https://github.com/user-attachments/assets/d3e95b77-af51-43ec-8f05-5285d82d64ef" /><br>
-  <b> 𝖠𝗉𝗅𝗂𝗄𝖺𝗌𝗂 𝖬𝖺𝗇𝖺𝗃𝖾𝗆𝖾𝗇 𝖮𝗉𝖾𝗋𝖺𝗌𝗂𝗈𝗇𝖺𝗅 & 𝖲𝗍𝗈𝗄📝📊 </b>
+  <img width="1200" height="400" alt="STARBUD coffee (1200 x 400 px)" src="https://github.com/user-attachments/assets/4b862070-c55e-4185-82c5-7f9b88c05d6b" />
 </p>
 
 
@@ -15,6 +17,8 @@
 | <div align="center">Sistem Informasi A '24</div> | <div align="center">Sistem Informasi A '24</div> | <div align="center">Sistem Informasi A '24</div> | <div align="center">Sistem Informasi A '24</div> |
 | <div align="center"><a href="https://github.com/rinaaluthfiah"><img src="https://img.shields.io/badge/GitHub-Isrina-grey?style=for-the-badge&logo=github"></a></div> | <div align="center"><a href="https://github.com/angiee24"><img src="https://img.shields.io/badge/GitHub-Angela-grey?style=for-the-badge&logo=github"></a></div> | <div align="center"><a href="https://github.com/Zahraramadhani014"><img src="https://img.shields.io/badge/GitHub-Zahra-grey?style=for-the-badge&logo=github"></a></div> | <div align="center"><a href="https://github.com/aliyah06667"><img src="https://img.shields.io/badge/GitHub-Aliyah-grey?style=for-the-badge&logo=github"></a></div> |
 
+---
+
 ## 🏪 𝐏𝐫𝐨𝐟𝐢𝐥 𝐒𝐢𝐧𝐠𝐤𝐚𝐭 𝐌𝐢𝐭𝐫𝐚
 
 <p align="justify">
@@ -27,6 +31,8 @@ Star Bud merupakan usaha yang bergerak di bidang penjualan makanan ringan dan mi
 
 𖠿 **Tahun Berdiri** : 2022 – Sekarang
 
+---
+
 ## 🚨 𝐏𝐞𝐫𝐦𝐚𝐬𝐚𝐥𝐚𝐡𝐚𝐧 & 𝐒𝐨𝐥𝐮𝐬𝐢
 
 | Permasalahan | Solusi |
@@ -35,7 +41,9 @@ Star Bud merupakan usaha yang bergerak di bidang penjualan makanan ringan dan mi
 | Pencatatan manual sering menyebabkan pesanan ganda (double order) | Sistem transaksi digital untuk mengurangi kesalahan pencatatan |
 | Stok bahan baku sering habis mendadak karena tidak terpantau | Sistem pemantauan stok otomatis yang berkurang setiap transaksi serta notifikasi ketika stok mulai menipis |
 
-## 📱 𝐓𝐞𝐧𝐭𝐚𝐧𝐠 𝐀𝐩𝐥𝐢𝐤𝐚𝐬𝐢
+---
+<details>
+<summary><h2>📁 TENTANG APLIKASI<h2></summary>
 
 <p align="justify">
 Aplikasi StarBud merupakan aplikasi mobile yang dirancang untuk membantu usaha makanan dan minuman ringan dalam mengelola operasional secara lebih efektif dan terstruktur. Melalui aplikasi ini, karyawan dapat mencatat pesanan pelanggan secara digital sehingga dapat meminimalkan kesalahan pencatatan, seperti pesanan ganda yang sering terjadi pada sistem manual.
@@ -45,7 +53,11 @@ Aplikasi StarBud merupakan aplikasi mobile yang dirancang untuk membantu usaha m
 Selain itu, sistem juga dilengkapi dengan fitur pemantauan stok bahan baku yang akan berkurang secara otomatis setiap kali transaksi dilakukan. Dengan demikian, pemilik usaha dapat mengetahui kondisi ketersediaan bahan baku secara lebih akurat dan menghindari kehabisan stok secara tiba-tiba. Aplikasi ini juga menyediakan laporan penjualan harian yang membantu pemilik usaha memantau aktivitas penjualan serta perkembangan omzet secara lebih mudah.
 </p>
 
-## 🌟 𝐅𝐢𝐭𝐮𝐫 𝐀𝐩𝐥𝐢𝐤𝐚𝐬𝐢
+---
+</details>
+
+<details>
+<summary><h2>📁 FITUR APLIKASI<h2></summary>
 
 <p align="justify">
 Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan operasional usaha makanan dan minuman secara lebih terstruktur. Fitur utama dalam aplikasi ini mengacu pada konsep CRUD (Create, Read, Update, Delete) yang menjadi dasar dalam pengelolaan data seperti pesanan, stok bahan baku, dan data pengguna.  
@@ -80,6 +92,9 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
 ● Melakukan transaksi penjualan
 
 ● Melihat riwayat transaksi
+
+---
+
 
 ###  ─── ⋆⋅☆⋅⋆ ──𝐓𝐚𝐦𝐩𝐢𝐥𝐚𝐧 𝐅𝐢𝐭𝐮𝐫 𝐔𝐭𝐚𝐦𝐚 𝐀𝐩𝐥𝐢𝐤𝐚𝐬𝐢 𝐒𝐭𝐚𝐫𝐛𝐮𝐝 ─── ⋆⋅☆⋅⋆ ──
 
@@ -133,8 +148,11 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
 
  <image src="https://github.com/user-attachments/assets/4dad440d-b328-41c4-bd14-aaca8668fe33" width="550"/>
 
+---
+</details>
 
-## 📁 𝐒𝐭𝐫𝐮𝐤𝐭𝐮𝐫 𝐅𝐨𝐥𝐝𝐞𝐫
+<details>
+<summary><h2>📁 STRUKTUR FOLDER<h2></summary>
 
 Struktur folder pada project StarBud disusun untuk mempermudah pengelolaan kode program dan pengembangan aplikasi
 
@@ -194,9 +212,11 @@ Struktur folder pada project StarBud disusun untuk mempermudah pengelolaan kode 
     ├── devtools_options.yaml   
     ├── pubspec.yaml            
     └── pubspec.lock            
+---
+</details>
 
-
-## 🗄️ 𝐒𝐭𝐫𝐮𝐤𝐭𝐮𝐫  𝐃𝐚𝐭𝐚𝐛𝐚𝐬𝐞
+<details>
+<summary><h2>📁 STRUKTUR DATABASE<h2></summary>
 
 ### 1. users
 Menyimpan data pengguna aplikasi seperti admin dan pegawai.
@@ -300,9 +320,11 @@ Menyimpan data pengeluaran operasional.
 | amount | int | jumlah biaya |
 | created_at | timestamptz | waktu pengeluaran |
 
+---
+</details>
 
-
-## 🧩 𝐈𝐦𝐩𝐥𝐞𝐦𝐞𝐧𝐭𝐚𝐬𝐢 𝐖𝐢𝐝𝐠𝐞𝐭
+<details>
+<summary><h2>📁 IMPLEMENTASI WIDGET<h2></summary>
 
 Berikut merupakan implementasi widget Flutter pada aplikasi **Star Bud** yang digunakan untuk membangun tampilan antarmuka dan mendukung interaksi pengguna.
 
@@ -340,10 +362,11 @@ Berikut merupakan implementasi widget Flutter pada aplikasi **Star Bud** yang di
 | **StreamBuilder** | `dashboard_page.dart`, `transaksi_history_page.dart`, `transaksi_page.dart` |
 | **Navigator** | `login_page.dart`, `welcome_page.dart`, `dashboard_page.dart`, `category_page.dart`, `menu_page.dart`, `stok_page.dart`, `laporan_page.dart`, `transaksi_page.dart`, `user_page.dart` |
 | **CircleAvatar** | `dashboard_page.dart`, `transaksi_page.dart`, `user_page.dart` |
+---
+</details>
 
-
-## ⚙️ 𝐓𝐞𝐤𝐧𝐨𝐥𝐨𝐠𝐢
-
+<details>
+<summary><h2>📁 TEKNOLOGI YANG DIGUNAKAN<h2></summary>
 
 <p>
 
@@ -355,9 +378,12 @@ Berikut merupakan implementasi widget Flutter pada aplikasi **Star Bud** yang di
 <img src="https://img.shields.io/badge/ENV-flutter__dotenv-yellow?style=for-the-badge"/>
 
 </p>
+---
+</details>
 
+<details>
+<summary><h2>➕ PENERAPAN NILAI TAMBAH<h2></summary>
 
-## ➕ 𝐏𝐞𝐧𝐞𝐫𝐚𝐩𝐚𝐧 𝐍𝐢𝐥𝐚𝐢 𝐓𝐚𝐦𝐛𝐚𝐡
 
 
 
