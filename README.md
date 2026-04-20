@@ -87,30 +87,30 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
 ## 📁 Struktur Folder
 
     /
-    ├── android/                ← konfigurasi dan build aplikasi Android
-    ├── ios/                    ← konfigurasi build aplikasi iOS
-    ├── linux/                  ← build aplikasi untuk Linux
-    ├── macos/                  ← build aplikasi untuk macOS
-    ├── windows/                ← build aplikasi untuk Windows
-    ├── web/                    ← build aplikasi versi web
+    ├── android/                
+    ├── ios/                    
+    ├── linux/                  
+    ├── macos/                  
+    ├── windows/                
+    ├── web/                    
     │
     ├── assets/
-    │   └── images/             ← menyimpan gambar atau aset aplikasi
+    │   └── images/             
     │
     ├── lib/
-    │   ├── main.dart           ← file utama untuk menjalankan aplikasi
+    │   ├── main.dart           
     │
-    │   ├── config/             ← konfigurasi aplikasi
+    │   ├── config/            
     │   │   └── supabase_config.dart
     │
-    │   ├── models/             ← model atau struktur data
+    │   ├── models/             
     │   │   ├── category_model.dart
     │   │   ├── menu_model.dart
     │   │   ├── order_model.dart
     │   │   ├── stock_model.dart
     │   │   └── user_model.dart
     │
-    │   ├── pages/              ← halaman utama aplikasi
+    │   ├── pages/              
     │   │   ├── welcome_page.dart
     │   │   ├── login_page.dart
     │   │   ├── dashboard_page.dart
@@ -122,7 +122,7 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
     │   │   ├── laporan_page.dart
     │   │   └── user_page.dart
     │
-    │   ├── services/           ← penghubung aplikasi dengan database
+    │   ├── services/           
     │   │   ├── auth_service.dart
     │   │   ├── category_service.dart
     │   │   ├── menu_service.dart
@@ -131,17 +131,17 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
     │   │   ├── stock_service.dart
     │   │   └── user_service.dart
     │
-    │   └── widgets/            ← komponen UI yang dapat digunakan ulang
+    │   └── widgets/           
     │       └── custom_button.dart
     │
-    ├── .env                    ← konfigurasi Supabase
-    ├── .gitignore              ← file yang tidak ikut diupload
-    ├── .metadata               ← metadata project Flutter
-    ├── README.md               ← dokumentasi project
-    ├── analysis_options.yaml   ← aturan penulisan kode
-    ├── devtools_options.yaml   ← konfigurasi DevTools
-    ├── pubspec.yaml            ← konfigurasi dependencies Flutter
-    └── pubspec.lock            ← daftar versi package
+    ├── .env                    
+    ├── .gitignore              
+    ├── .metadata               
+    ├── README.md               
+    ├── analysis_options.yaml   
+    ├── devtools_options.yaml   
+    ├── pubspec.yaml            
+    └── pubspec.lock            
 
 
 ## 🗄️ 𝖣𝖺𝗍𝖺𝖻𝖺𝗌𝖾
