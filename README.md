@@ -5,8 +5,24 @@
 </p>
 
 
+## 📑 Daftar Isi
 
-## 👩🏻‍🍳 𝖠𝗇𝗀𝗀𝗈𝗍𝖺 𝖳𝗂𝗆
+- 👩‍💻 [Anggota Tim](#-anggota-tim)
+- 🏪 [Profil Mitra](#-profil-mitra)
+- 📱 [Deskripsi Aplikasi](#-deskripsi-aplikasi)
+- ⚠️ [Permasalahan](#️-permasalahan)
+- 💡 [Solusi](#-solusi)
+- 🌟 [Fitur Aplikasi](#-fitur-aplikasi)
+- 🔐 [Sistem Login](#-sistem-login)
+- 🧩 [Widget](#-widget)
+- ☁️ [Backend](#️-backend)
+- 🚀 [Cara Menjalankan](#-cara-menjalankan)
+
+
+
+
+##
+  
 
 | Isrina Luthfiah | Angela Caroline Budiman | Zahraturramadhani | Aliyah Azzah Sekedang |
 |---------------|------------|------|--------------------|
@@ -58,7 +74,35 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
 
 
 
-## 📲 𝖶𝗂𝖽𝗀𝖾𝗍 𝖸𝖺𝗇𝗀 𝖣𝗂𝗀𝗎𝗇𝖺𝗄𝖺𝗇
+## 📲 Widget yang Digunakan
+
+Beberapa widget Flutter yang digunakan dalam aplikasi ini:
+
+Scaffold
+
+AppBar
+
+
+Column
+
+Row
+
+ListView
+
+Card
+
+TextField
+
+ElevatedButton
+
+IconButton
+
+SnackBar
+
+Form
+
+BottomNavigationBar
+FutureBuilder
 
 ## 🗄️ 𝖣𝖺𝗍𝖺𝖻𝖺𝗌𝖾
 
