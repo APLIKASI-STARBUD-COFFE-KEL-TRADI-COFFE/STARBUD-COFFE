@@ -377,36 +377,99 @@ Berikut merupakan implementasi widget Flutter pada aplikasi **Star Bud** yang di
 <img src="https://img.shields.io/badge/NAVIGATION-Navigator-blue?style=for-the-badge"/>
 <img src="https://img.shields.io/badge/ENV-flutter__dotenv-yellow?style=for-the-badge"/>
 
-Aplikasi ini dibangun dengan fokus pada performa yang responsif dan integrasi data real-time untuk mendukung operasional bisnis yang efisien. Berikut adalah rincian teknologi yang digunakan:
+Berikut adalah teknologi utama yang digunakan dalam pengembangan aplikasi **Starbud Coffee**:
 
 ### 1. Frontend & Bahasa Pemrograman
 
-- **Flutter & Dart:** Menggunakan Flutter sebagai framework UI untuk membangun aplikasi yang cross-platform dengan performa tinggi. Dart digunakan sebagai bahasa pemrograman utama yang memungkinkan pengembangan fitur manajemen stok dengan logika yang kuat dan konsisten.
+- **Flutter**  
+  Framework utama untuk membangun tampilan aplikasi (UI) yang responsif dan bisa berjalan di berbagai platform.
+
+- **Dart**  
+  Bahasa pemrograman yang digunakan untuk mengatur logika aplikasi dan menghubungkan tampilan dengan data.
 
 ### 2. Backend & Database
 
-- **Supabase:** Digunakan sebagai solusi Backend-as-a-Service (BaaS). Supabase menangani penyimpanan data produk, manajemen inventaris, dan transaksi secara real-time. Keunggulannya dalam mendukung PostgreSQL sangat krusial untuk menjaga integritas data stok antar cabang atau perangkat.
+- **Supabase (Backend-as-a-Service)**  
+  Digunakan sebagai backend untuk mengelola data dan sistem aplikasi, meliputi:
+  - **Database (PostgreSQL)** untuk menyimpan data menu, stok, transaksi, dll  
+  - **Authentication** untuk login dan manajemen pengguna  
+  - **Real-time data** agar perubahan data langsung ter-update tanpa reload  
 
-### 3. Manajemen Arsitektur & State
-  - **State Management (setState):** Mengandalkan manajemen state bawaan Flutter untuk menangani perubahan data yang bersifat lokal dan sederhana, memastikan UI selalu sinkron dengan input pengguna tanpa beban overhead yang besar.
-  - **Navigation (Navigator):** Menggunakan Navigator untuk mengelola alur perpindahan antar halaman (seperti dari daftar menu ke detail transaksi) secara terstruktur.
+### 3. State & Data Management
 
-### 4. Keamanan & Konfigurasi
-- **Environment Variables (flutter_dotenv):** Digunakan untuk mengelola konfigurasi sensitif seperti API Keys dan URL Database secara aman. Dengan memisahkan variabel lingkungan, integritas kredensial aplikasi tetap terjaga dan tidak terekspos secara langsung di kode sumber.
+- **setState (Flutter)**  
+  Digunakan untuk mengatur perubahan data sederhana di dalam halaman agar UI langsung ikut berubah.
+
+- **Streams & RxDart**  
+  Digunakan untuk menangani data yang terus berubah (seperti dashboard), sehingga data bisa ditampilkan secara real-time dan lebih efisien.
+
+### 4. Konfigurasi & Keamanan
+
+- **flutter_dotenv**  
+  Digunakan untuk menyimpan data penting seperti API Key dan URL database agar tidak langsung ditulis di dalam kode.
+
+### 5. Library Pendukung
+
+Beberapa library tambahan yang membantu pengembangan aplikasi:
+
+- **intl** → Format mata uang dan tanggal (Indonesia)  
+- **pdf & printing** → Membuat dan mencetak laporan  
+- **image_picker** → Upload gambar dari kamera/galeri  
+- **shimmer** → Efek loading yang lebih halus  
+- **google_fonts** → Mengatur tampilan font aplikasi  
+
+### 6. Arsitektur Aplikasi
+
+Aplikasi menggunakan pendekatan **Service-Oriented**, yaitu memisahkan:
+- Logika bisnis  
+- Pengolahan data  
+- Tampilan (UI)  
+
+Dengan struktur ini, kode jadi lebih rapi, mudah dipahami, dan lebih gampang dikembangkan ke depannya.
 
 </p>
 ---
 </details>
 
 <details>
-<summary><h2>➕ PENERAPAN NILAI TAMBAH<h2></summary>
+<summary><h2>📁 PENERAPAN NILAI TAMBAH<h2></summary>
 
+Proyek ini tidak hanya memakai fitur dasar dari praktikum, tapi juga menambahkan beberapa teknologi agar aplikasi terasa lebih lengkap dan nyaman digunakan.
 
+### 1. Manajemen Laporan & Dokumen (`PDF` & `Printing`)
 
+Aplikasi dapat membuat laporan keuangan seperti **pemasukan, pengeluaran, dan laba** dalam bentuk **file PDF** yang siap dicetak sehingga data tidak hanya ditampilkan di layar, namun juga dapat langsung diexport menjadi laporan.
 
+### 2. Format Lokal Indonesia (`intl`)
 
+Digunakan untuk:
+- Format mata uang **Rupiah (IDR)**
+- Format tanggal sesuai standar Indonesia  
 
+Dengan ini, tampilan data jadi lebih rapi dan mudah dipahami.
 
+### 3. Peningkatan Pengalaman Pengguna (`UX`)
 
+Beberapa fitur tambahan untuk membuat aplikasi lebih nyaman digunakan:
 
+- **shimmer**  
+  Menampilkan efek loading berupa *skeleton screen* saat data sedang dimuat, jadi tidak terlihat kosong.
 
+- **image_picker**  
+  Memungkinkan admin untuk upload gambar menu langsung dari galeri atau kamera.
+
+### 4. Tipografi & Tampilan (`google_fonts`)
+
+Menggunakan font seperti **Poppins** dan **Playfair Display** agar tampilan aplikasi lebih modern, rapi dan nyaman dilihat.
+
+### 5. Pengolahan Data (`rxdart`)
+
+Digunakan untuk mengelola data yang terus berubah, terutama di bagian dashboard, seperti:
+  - Data transaksi  
+  - Stok menipis  
+  - Ringkasan harian  
+
+Semua data ini bisa ditampilkan secara real-time dengan lebih efisien.
+
+---
+</details>
