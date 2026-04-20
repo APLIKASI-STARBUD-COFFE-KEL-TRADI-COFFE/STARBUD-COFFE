@@ -1,0 +1,41 @@
+name: starbud_coffe
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.10.8
+
+dependencies:
+  flutter:
+    sdk: flutter
+  supabase_flutter: ^2.0.0
+  flutter_dotenv: ^5.1.0
+  get: ^4.6.6
+  google_fonts: ^6.1.0
+  rxdart: ^0.27.7
+  shared_preferences: ^2.2.2
+  intl: ^0.20.2
+  shimmer: ^3.0.0
+  image_picker: ^1.0.7
+  pdf: ^3.10.8
+  printing: ^5.12.0
+  path_provider: ^2.1.2
+  share_plus: ^7.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1   
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env
+    - assets/images/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo_starbud.png"
