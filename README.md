@@ -1,0 +1,475 @@
+# <p align="center"> ☕🍪 𝐒𝐓𝐀𝐑𝐁𝐔𝐃 𝐂𝐎𝐅𝐅𝐄𝐄 🍪☕
+
+<p align="center"><em>Aplikasi Manajemen Operasional & Stok</em></p>
+
+<p align="center">
+  <img width="1200" height="400" alt="STARBUD coffee (1200 x 400 px)" src="https://github.com/user-attachments/assets/4b862070-c55e-4185-82c5-7f9b88c05d6b" />
+</p>
+
+
+
+## 👩🏻‍🍳  𝐀𝐧𝐠𝐠𝐨𝐭𝐚 𝐊𝐞𝐥𝐨𝐦𝐩𝐨𝐤
+  
+| Isrina Luthfiah | Angela Caroline Budiman | Zahraturramadhani | Aliyah Azzah Sekedang |
+|---------------|------------|------|--------------------|
+| <div align="center"><img src="https://github.com/user-attachments/assets/b58f52b9-7692-4c50-811a-0fefba46169f" width="270"></div> | <div align="center"><img src="https://github.com/user-attachments/assets/4ddd8e61-8d49-40fb-9eac-a6869abbe5ef" width="240"></div> | <div align="center"><img src="https://github.com/user-attachments/assets/f0f9c938-f16f-4a05-a7cc-0e348f24fc72" width="240"></div> | <div align="center"><img src="https://github.com/user-attachments/assets/33834a92-bda6-40d6-8c77-63fda94d671c" width="240"></div> |
+| <div align="center">2409116003</div> | <div align="center">2409116008</div> | <div align="center">2409116014</div> | <div align="center">2409116021</div> |
+| <div align="center">Sistem Informasi A '24</div> | <div align="center">Sistem Informasi A '24</div> | <div align="center">Sistem Informasi A '24</div> | <div align="center">Sistem Informasi A '24</div> |
+| <div align="center"><a href="https://github.com/rinaaluthfiah"><img src="https://img.shields.io/badge/GitHub-Isrina-grey?style=for-the-badge&logo=github"></a></div> | <div align="center"><a href="https://github.com/angiee24"><img src="https://img.shields.io/badge/GitHub-Angela-grey?style=for-the-badge&logo=github"></a></div> | <div align="center"><a href="https://github.com/Zahraramadhani014"><img src="https://img.shields.io/badge/GitHub-Zahra-grey?style=for-the-badge&logo=github"></a></div> | <div align="center"><a href="https://github.com/aliyah06667"><img src="https://img.shields.io/badge/GitHub-Aliyah-grey?style=for-the-badge&logo=github"></a></div> |
+
+---
+
+## 🏪 𝐏𝐫𝐨𝐟𝐢𝐥 𝐒𝐢𝐧𝐠𝐤𝐚𝐭 𝐌𝐢𝐭𝐫𝐚
+
+<p align="justify">
+Star Bud merupakan usaha yang bergerak di bidang penjualan makanan ringan dan minuman tradisonal. Usaha ini menyediakan berbagai jenis minuman serta makanan ringan seperti singkong goreng dan camilan lainnya yang disajikan secara langsung kepada pelanggan. Sejak didirikan pada tahun 2022, StarBud telah menjalankan kegiatan usaha dengan melayani pelanggan dengan manual dan secara langsung di tempat.
+</p>
+
+☘︎ **Nama Usaha**   : StarBud  
+
+✦ **Jenis Usaha**  : Makanan dan Minuman Ringan  
+
+𖠿 **Tahun Berdiri** : 2022 – Sekarang
+
+---
+
+## 🚨 𝐏𝐞𝐫𝐦𝐚𝐬𝐚𝐥𝐚𝐡𝐚𝐧 & 𝐒𝐨𝐥𝐮𝐬𝐢
+
+| Permasalahan | Solusi |
+|---|---|
+| Antrean pelanggan yang ramai membuat karyawan kewalahan dalam melayani pesanan | Sistem pencatatan pesanan digital (POS sederhana) untuk mempercepat proses pelayanan |
+| Pencatatan manual sering menyebabkan pesanan ganda (double order) | Sistem transaksi digital untuk mengurangi kesalahan pencatatan |
+| Stok bahan baku sering habis mendadak karena tidak terpantau | Sistem pemantauan stok otomatis yang berkurang setiap transaksi serta notifikasi ketika stok mulai menipis |
+
+---
+<details>
+<summary><h2>📁 TENTANG APLIKASI<h2></summary>
+
+<p align="justify">
+Aplikasi StarBud merupakan aplikasi mobile yang dirancang untuk membantu usaha makanan dan minuman ringan dalam mengelola operasional secara lebih efektif dan terstruktur. Melalui aplikasi ini, karyawan dapat mencatat pesanan pelanggan secara digital sehingga dapat meminimalkan kesalahan pencatatan, seperti pesanan ganda yang sering terjadi pada sistem manual.
+</p>
+
+<p align="justify">
+Selain itu, sistem juga dilengkapi dengan fitur pemantauan stok bahan baku yang akan berkurang secara otomatis setiap kali transaksi dilakukan. Dengan demikian, pemilik usaha dapat mengetahui kondisi ketersediaan bahan baku secara lebih akurat dan menghindari kehabisan stok secara tiba-tiba. Aplikasi ini juga menyediakan laporan penjualan harian yang membantu pemilik usaha memantau aktivitas penjualan serta perkembangan omzet secara lebih mudah.
+</p>
+
+---
+</details>
+
+<details>
+<summary><h2>📁 FITUR APLIKASI<h2></summary>
+
+<p align="justify">
+Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan operasional usaha makanan dan minuman secara lebih terstruktur. Fitur utama dalam aplikasi ini mengacu pada konsep CRUD (Create, Read, Update, Delete) yang menjadi dasar dalam pengelolaan data seperti pesanan, stok bahan baku, dan data pengguna.  
+<p>
+
+### 1. Admin 🙎‍♂️ ˎˊ˗
+   
+✦ Login ke dalam sistem
+
+✦ Melihat dashboard untuk memantau aktivitas penjualan
+
+✦ Mengelola data menu makanan dan minuman
+
+✦ Mengelola kategori menu
+
+✦ Mengelola data stok bahan baku
+
+✦ Mengelola resep atau bahan yang digunakan pada menu
+
+✦ Melihat laporan penjualan
+
+✦ Mengelola data pengguna aplikasi
+
+### 3. Pegawai / Kasir 👩‍💻 ˎˊ˗
+   
+● Login ke dalam sistem
+
+● Melihat dashboard penjualan
+
+● Melihat daftar menu yang tersedia
+
+● Melakukan transaksi penjualan
+
+● Melihat riwayat transaksi
+
+---
+
+
+###  ─── ⋆⋅☆⋅⋆ ──𝐓𝐚𝐦𝐩𝐢𝐥𝐚𝐧 𝐅𝐢𝐭𝐮𝐫 𝐔𝐭𝐚𝐦𝐚 𝐀𝐩𝐥𝐢𝐤𝐚𝐬𝐢 𝐒𝐭𝐚𝐫𝐛𝐮𝐝 ─── ⋆⋅☆⋅⋆ ──
+
+### 1️⃣ Tampilan  Fitur Admin 
+
+**a.  Login  Admin  🔒**
+
+<image src="https://github.com/user-attachments/assets/6d49a9c1-8b41-4dde-b192-a04243189196" width="510"/> 
+
+**b. Beranda Admin 🎛️**
+
+ <image src="https://github.com/user-attachments/assets/5b59666e-e6ec-4eee-93af-0cf1140f1245" width="510"/>
+ 
+
+**c. Manajemen Menu**
+
+ <image src="https://github.com/user-attachments/assets/ee7dfb85-c314-4442-a071-fd184ea0e86d" width="510"/>
+ 
+
+**d.  Pencatatan Pesanan** ✍️
+
+<image src="https://github.com/user-attachments/assets/08692b66-4cbe-49d1-bccb-9d86096c12ad" width="510"/>
+
+**e.  Laporan Penjualan** 📑
+
+<image src="https://github.com/user-attachments/assets/4eb9fc53-4fa1-48c0-a675-f2d34d203b20" width="530"/>
+
+**f. Manajemen User**
+
+<image src="https://github.com/user-attachments/assets/a08f3a36-9de7-42dc-aa52-944638918b4e" width="530"/>
+
+### 2️⃣  Tampilan Fitur Pegawai/Kasir
+
+**a. Login Pegawai** 🔒
+
+ <image src="https://github.com/user-attachments/assets/a3444cd5-45bd-48e2-8267-b4724c0ce884" width="540"/>
+
+
+**b.  Beranda Pegawai**🎛️
+
+ <image src="https://github.com/user-attachments/assets/f792951c-a2ce-46e3-a0ce-518c09360ba5" width="540"/>
+
+
+ **c. Pencatatan Pesanan** ✍️
+
+ <image src="https://github.com/user-attachments/assets/06347db8-b0f5-4308-995c-302012c351bc" width="520"/>
+
+
+
+### 3️⃣  Tampilan Setelah Logout
+
+ <image src="https://github.com/user-attachments/assets/4dad440d-b328-41c4-bd14-aaca8668fe33" width="550"/>
+
+---
+</details>
+
+<details>
+<summary><h2>📁 STRUKTUR FOLDER<h2></summary>
+
+Struktur folder pada project StarBud disusun untuk mempermudah pengelolaan kode program dan pengembangan aplikasi
+
+    /
+    ├── android/                
+    ├── ios/                    
+    ├── linux/                  
+    ├── macos/                  
+    ├── windows/                
+    ├── web/                    
+    │
+    ├── assets/
+    │   └── images/             
+    │
+    ├── lib/
+    │   ├── main.dart           
+    │
+    │   ├── config/            
+    │   │   └── supabase_config.dart
+    │
+    │   ├── models/             
+    │   │   ├── category_model.dart
+    │   │   ├── menu_model.dart
+    │   │   ├── order_model.dart
+    │   │   ├── stock_model.dart
+    │   │   └── user_model.dart
+    │
+    │   ├── pages/              
+    │   │   ├── welcome_page.dart
+    │   │   ├── login_page.dart
+    │   │   ├── dashboard_page.dart
+    │   │   ├── menu_page.dart
+    │   │   ├── category_page.dart
+    │   │   ├── stok_page.dart
+    │   │   ├── transaksi_page.dart
+    │   │   ├── transaksi_history_page.dart
+    │   │   ├── laporan_page.dart
+    │   │   └── user_page.dart
+    │
+    │   ├── services/           
+    │   │   ├── auth_service.dart
+    │   │   ├── category_service.dart
+    │   │   ├── menu_service.dart
+    │   │   ├── order_service.dart
+    │   │   ├── recipe_service.dart
+    │   │   ├── stock_service.dart
+    │   │   └── user_service.dart
+    │
+    │   └── widgets/           
+    │       └── custom_button.dart
+    │
+    ├── .env                    
+    ├── .gitignore              
+    ├── .metadata               
+    ├── README.md               
+    ├── analysis_options.yaml   
+    ├── devtools_options.yaml   
+    ├── pubspec.yaml            
+    └── pubspec.lock            
+---
+</details>
+
+<details>
+<summary><h2>📁 STRUKTUR DATABASE<h2></summary>
+
+### 1. users
+Menyimpan data pengguna aplikasi seperti admin dan pegawai.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID pengguna |
+| username | text | nama pengguna |
+| role | text | peran pengguna (admin / pegawai) |
+| created_at | timestamptz | waktu akun dibuat |
+| is_active | bool | status aktif pengguna |
+
+---
+
+
+### 2. categories
+Menyimpan kategori menu yang ada pada aplikasi.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID kategori |
+| name | text | nama kategori |
+| is_active | bool | status kategori |
+| created_at | timestamptz | waktu dibuat |
+
+---
+
+### 3. menu
+Menyimpan daftar menu makanan dan minuman.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID menu |
+| name | text | nama menu |
+| price | int | harga menu |
+| stock | int | jumlah stok |
+| status | bool | status menu tersedia / tidak |
+| category_id | uuid | relasi ke tabel categories |
+
+---
+
+### 4. orders
+Menyimpan data transaksi pesanan.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID transaksi |
+| user_id | uuid | pengguna yang melakukan transaksi |
+| total | int | total harga transaksi |
+| created_at | timestamptz | waktu transaksi |
+
+---
+
+
+### 5. order_items
+Menyimpan detail menu yang ada di setiap transaksi.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID detail transaksi |
+| order_id | uuid | relasi ke tabel orders |
+| menu_id | uuid | relasi ke tabel menu |
+| qty | int | jumlah menu |
+| price | int | harga menu saat transaksi |
+
+---
+
+### 6. stocks
+Menyimpan data stok bahan baku.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID stok |
+| name | text | nama bahan |
+| quantity | int | jumlah stok |
+| min_stock | int | batas minimal stok |
+| unit | text | satuan bahan |
+
+---
+
+
+### 7. recipes
+Menyimpan hubungan antara menu dan bahan baku.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID resep |
+| menu_id | uuid | relasi ke tabel menu |
+| stock_id | uuid | relasi ke tabel stocks |
+| quantity | int | jumlah bahan yang digunakan |
+
+---
+
+### 8. expenses
+Menyimpan data pengeluaran operasional.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID pengeluaran |
+| name | text | nama pengeluaran |
+| amount | int | jumlah biaya |
+| created_at | timestamptz | waktu pengeluaran |
+
+---
+</details>
+
+<details>
+<summary><h2>📁 IMPLEMENTASI WIDGET<h2></summary>
+
+Berikut merupakan implementasi widget Flutter pada aplikasi **Star Bud** yang digunakan untuk membangun tampilan antarmuka dan mendukung interaksi pengguna.
+
+### 1. Widget Struktur Halaman
+
+| Widget | File |
+|--------|------|
+| **Scaffold** | `login_page.dart`, `dashboard_page.dart`, `stok_page.dart`, `laporan_page.dart`, `transaksi_page.dart`, `transaksi_history_page.dart`, `user_page.dart`, `welcome_page.dart` |
+| **AppBar** | `dashboard_page.dart`, `transaksi_history_page.dart`, `user_page.dart` |
+| **Column** | `login_page.dart`, `dashboard_page.dart`, `menu_page.dart`, `stok_page.dart`, `transaksi_page.dart`, `laporan_page.dart`, `user_page.dart`, `welcome_page.dart`, `category_page.dart`, `transaksi_history_page.dart` |
+| **Row** | `login_page.dart`, `dashboard_page.dart`, `menu_page.dart`, `stok_page.dart`, `transaksi_page.dart`, `laporan_page.dart`, `user_page.dart`, `welcome_page.dart`, `category_page.dart`, `transaksi_history_page.dart` |
+| **ListView** | `category_page.dart`, `dashboard_page.dart`, `laporan_page.dart`, `menu_page.dart`, `stok_page.dart`, `transaksi_history_page.dart`, `transaksi_page.dart` |
+| **GridView** | `transaksi_page.dart` |
+| **Card** | `transaksi_page.dart` |
+| **BottomNavigationBar** | `dashboard_page.dart` |
+
+### 2. Widget Input dan Interaksi
+
+| Widget | File |
+|--------|------|
+| **TextField** | `category_page.dart`, `laporan_page.dart`, `menu_page.dart`, `stok_page.dart`, `transaksi_page.dart`, `user_page.dart` |
+| **Form** | `login_page.dart`, `user_page.dart` |
+| **ElevatedButton** | `login_page.dart`, `dashboard_page.dart`, `category_page.dart`, `menu_page.dart`, `stok_page.dart`, `laporan_page.dart`, `transaksi_page.dart`, `user_page.dart`, `widgets/custom_button.dart` |
+| **IconButton** | `login_page.dart`, `category_page.dart`, `menu_page.dart`, `stok_page.dart`, `laporan_page.dart`, `transaksi_page.dart`, `transaksi_history_page.dart`, `user_page.dart` |
+| **DropdownButtonFormField** | `dashboard_page.dart`, `menu_page.dart`, `stok_page.dart`, `user_page.dart` |
+| **AlertDialog** | `dashboard_page.dart`, `category_page.dart`, `menu_page.dart`, `stok_page.dart`, `laporan_page.dart`, `transaksi_page.dart`, `user_page.dart` |
+| **SnackBar** | `login_page.dart`, `stok_page.dart`, `transaksi_page.dart` |
+
+### 3. Widget Data dan Navigasi
+
+| Widget | File |
+|--------|------|
+| **Text** | `login_page.dart`, `dashboard_page.dart`, `menu_page.dart`, `stok_page.dart`, `transaksi_page.dart`, `laporan_page.dart`, `user_page.dart`, `welcome_page.dart` |
+| **FutureBuilder** | `category_page.dart`, `menu_page.dart`, `laporan_page.dart`, `transaksi_page.dart`, `transaksi_history_page.dart`, `user_page.dart` |
+| **StreamBuilder** | `dashboard_page.dart`, `transaksi_history_page.dart`, `transaksi_page.dart` |
+| **Navigator** | `login_page.dart`, `welcome_page.dart`, `dashboard_page.dart`, `category_page.dart`, `menu_page.dart`, `stok_page.dart`, `laporan_page.dart`, `transaksi_page.dart`, `user_page.dart` |
+| **CircleAvatar** | `dashboard_page.dart`, `transaksi_page.dart`, `user_page.dart` |
+---
+</details>
+
+<details>
+<summary><h2>📁 TEKNOLOGI YANG DIGUNAKAN<h2></summary>
+
+<p>
+
+<img src="https://img.shields.io/badge/FLUTTER-02569B?style=for-the-badge&logo=flutter&logoColor=white"/>
+<img src="https://img.shields.io/badge/DART-0175C2?style=for-the-badge&logo=dart&logoColor=white"/>
+<img src="https://img.shields.io/badge/SUPABASE-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"/>
+<img src="https://img.shields.io/badge/STATE%20MANAGEMENT-setState-blueviolet?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/NAVIGATION-Navigator-blue?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/ENV-flutter__dotenv-yellow?style=for-the-badge"/>
+
+Berikut adalah teknologi utama yang digunakan dalam pengembangan aplikasi **Starbud Coffee**:
+
+### 1. Frontend & Bahasa Pemrograman
+
+- **Flutter**  
+  Framework utama untuk membangun tampilan aplikasi (UI) yang responsif dan bisa berjalan di berbagai platform.
+
+- **Dart**  
+  Bahasa pemrograman yang digunakan untuk mengatur logika aplikasi dan menghubungkan tampilan dengan data.
+
+### 2. Backend & Database
+
+- **Supabase (Backend-as-a-Service)**  
+  Digunakan sebagai backend untuk mengelola data dan sistem aplikasi, meliputi:
+  - **Database (PostgreSQL)** untuk menyimpan data menu, stok, transaksi, dll  
+  - **Authentication** untuk login dan manajemen pengguna  
+  - **Real-time data** agar perubahan data langsung ter-update tanpa reload  
+
+### 3. State & Data Management
+
+- **setState (Flutter)**  
+  Digunakan untuk mengatur perubahan data sederhana di dalam halaman agar UI langsung ikut berubah.
+
+- **Streams & RxDart**  
+  Digunakan untuk menangani data yang terus berubah (seperti dashboard), sehingga data bisa ditampilkan secara real-time dan lebih efisien.
+
+### 4. Konfigurasi & Keamanan
+
+- **flutter_dotenv**  
+  Digunakan untuk menyimpan data penting seperti API Key dan URL database agar tidak langsung ditulis di dalam kode.
+
+### 5. Library Pendukung
+
+Beberapa library tambahan yang membantu pengembangan aplikasi:
+
+- **intl** → Format mata uang dan tanggal (Indonesia)  
+- **pdf & printing** → Membuat dan mencetak laporan  
+- **image_picker** → Upload gambar dari kamera/galeri  
+- **shimmer** → Efek loading yang lebih halus  
+- **google_fonts** → Mengatur tampilan font aplikasi  
+
+### 6. Arsitektur Aplikasi
+
+Aplikasi menggunakan pendekatan **Service-Oriented**, yaitu memisahkan:
+- Logika bisnis  
+- Pengolahan data  
+- Tampilan (UI)  
+
+Dengan struktur ini, kode jadi lebih rapi, mudah dipahami, dan lebih gampang dikembangkan ke depannya.
+
+</p>
+---
+</details>
+
+<details>
+<summary><h2>📁 PENERAPAN NILAI TAMBAH<h2></summary>
+
+Proyek ini tidak hanya memakai fitur dasar dari praktikum, tapi juga menambahkan beberapa teknologi agar aplikasi terasa lebih lengkap dan nyaman digunakan.
+
+### 1. Manajemen Laporan & Dokumen (`PDF` & `Printing`)
+
+Aplikasi dapat membuat laporan keuangan seperti **pemasukan, pengeluaran, dan laba** dalam bentuk **file PDF** yang siap dicetak sehingga data tidak hanya ditampilkan di layar, namun juga dapat langsung diexport menjadi laporan.
+
+### 2. Format Lokal Indonesia (`intl`)
+
+Digunakan untuk:
+- Format mata uang **Rupiah (IDR)**
+- Format tanggal sesuai standar Indonesia  
+
+Dengan ini, tampilan data jadi lebih rapi dan mudah dipahami.
+
+### 3. Peningkatan Pengalaman Pengguna (`UX`)
+
+Beberapa fitur tambahan untuk membuat aplikasi lebih nyaman digunakan:
+
+- **shimmer**  
+  Menampilkan efek loading berupa *skeleton screen* saat data sedang dimuat, jadi tidak terlihat kosong.
+
+- **image_picker**  
+  Memungkinkan admin untuk upload gambar menu langsung dari galeri atau kamera.
+
+### 4. Tipografi & Tampilan (`google_fonts`)
+
+Menggunakan font seperti **Poppins** dan **Playfair Display** agar tampilan aplikasi lebih modern, rapi dan nyaman dilihat.
+
+### 5. Pengolahan Data (`rxdart`)
+
+Digunakan untuk mengelola data yang terus berubah, terutama di bagian dashboard, seperti:
+  - Data transaksi  
+  - Stok menipis  
+  - Ringkasan harian  
+
+Semua data ini bisa ditampilkan secara real-time dengan lebih efisien.
+
+---
+</details>
