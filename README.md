@@ -83,54 +83,53 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
 
 ###  ─── ⋆⋅☆⋅⋆ ──𝐓𝐚𝐦𝐩𝐢𝐥𝐚𝐧 𝐅𝐢𝐭𝐮𝐫 𝐔𝐭𝐚𝐦𝐚 𝐀𝐩𝐥𝐢𝐤𝐚𝐬𝐢 𝐒𝐭𝐚𝐫𝐛𝐮𝐝 ─── ⋆⋅☆⋅⋆ ──
 
-## 1️⃣ Tampilan  Fitur Admin 
+### 1️⃣ Tampilan  Fitur Admin 
 
-a.  Login  Admin  🔒
+**a.  Login  Admin  🔒**
 
 <image src="https://github.com/user-attachments/assets/6d49a9c1-8b41-4dde-b192-a04243189196" width="510"/> 
 
-
-b. Beranda Admin 🎛️
+**b. Beranda Admin 🎛️**
 
  <image src="https://github.com/user-attachments/assets/5b59666e-e6ec-4eee-93af-0cf1140f1245" width="510"/>
  
 
-c. Manajemen Menu
+**c. Manajemen Menu**
 
  <image src="https://github.com/user-attachments/assets/ee7dfb85-c314-4442-a071-fd184ea0e86d" width="510"/>
  
 
-d.  Pencatatan Pesanan ✍️
+**d.  Pencatatan Pesanan** ✍️
 
 <image src="https://github.com/user-attachments/assets/08692b66-4cbe-49d1-bccb-9d86096c12ad" width="510"/>
 
-e.  Laporan Penjualan 📑
+**e.  Laporan Penjualan** 📑
 
 <image src="https://github.com/user-attachments/assets/4eb9fc53-4fa1-48c0-a675-f2d34d203b20" width="530"/>
 
-f. Manajemen User 
+**f. Manajemen User**
 
 <image src="https://github.com/user-attachments/assets/a08f3a36-9de7-42dc-aa52-944638918b4e" width="530"/>
 
-## 2️⃣  Tampilan Fitur Pegawai/Kasir
+### 2️⃣  Tampilan Fitur Pegawai/Kasir
 
-a. Login Pegawai 🔒
+**a. Login Pegawai** 🔒
 
  <image src="https://github.com/user-attachments/assets/a3444cd5-45bd-48e2-8267-b4724c0ce884" width="540"/>
 
 
-b.  Beranda Pegawai 🎛️
+**b.  Beranda Pegawai**🎛️
 
  <image src="https://github.com/user-attachments/assets/f792951c-a2ce-46e3-a0ce-518c09360ba5" width="540"/>
 
 
- c. Pencatatan Pesanan ✍️
+ **c. Pencatatan Pesanan** ✍️
 
- <image src="https://github.com/user-attachments/assets/06347db8-b0f5-4308-995c-302012c351bc" width="540"/>
+ <image src="https://github.com/user-attachments/assets/06347db8-b0f5-4308-995c-302012c351bc" width="520"/>
 
 
 
-## 3️⃣  Tampilan Setelah Logout
+### 3️⃣  Tampilan Setelah Logout
 
  <image src="https://github.com/user-attachments/assets/4dad440d-b328-41c4-bd14-aaca8668fe33" width="550"/>
 
