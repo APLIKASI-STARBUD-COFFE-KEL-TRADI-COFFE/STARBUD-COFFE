@@ -6,7 +6,7 @@
 
 
 
-## 👩🏻‍🍳Anggota Kelompok
+## 👩🏻‍🍳  𝐀𝐧𝐠𝐠𝐨𝐭𝐚 𝐊𝐞𝐥𝐨𝐦𝐩𝐨𝐤
   
 | Isrina Luthfiah | Angela Caroline Budiman | Zahraturramadhani | Aliyah Azzah Sekedang |
 |---------------|------------|------|--------------------|
@@ -15,7 +15,7 @@
 | <div align="center">Sistem Informasi A '24</div> | <div align="center">Sistem Informasi A '24</div> | <div align="center">Sistem Informasi A '24</div> | <div align="center">Sistem Informasi A '24</div> |
 | <div align="center"><a href="https://github.com/rinaaluthfiah"><img src="https://img.shields.io/badge/GitHub-Isrina-grey?style=for-the-badge&logo=github"></a></div> | <div align="center"><a href="https://github.com/angiee24"><img src="https://img.shields.io/badge/GitHub-Angela-grey?style=for-the-badge&logo=github"></a></div> | <div align="center"><a href="https://github.com/Zahraramadhani014"><img src="https://img.shields.io/badge/GitHub-Zahra-grey?style=for-the-badge&logo=github"></a></div> | <div align="center"><a href="https://github.com/aliyah06667"><img src="https://img.shields.io/badge/GitHub-Aliyah-grey?style=for-the-badge&logo=github"></a></div> |
 
-## 🏪 Profil Singkat Mitra
+## 🏪 𝐏𝐫𝐨𝐟𝐢𝐥 𝐒𝐢𝐧𝐠𝐤𝐚𝐭 𝐌𝐢𝐭𝐫𝐚
 
 <p align="justify">
 Star Bud merupakan usaha yang bergerak di bidang penjualan makanan ringan dan minuman tradisonal. Usaha ini menyediakan berbagai jenis minuman serta makanan ringan seperti singkong goreng dan camilan lainnya yang disajikan secara langsung kepada pelanggan. Sejak didirikan pada tahun 2022, StarBud telah menjalankan kegiatan usaha dengan melayani pelanggan dengan manual dan secara langsung di tempat.
@@ -27,7 +27,7 @@ Star Bud merupakan usaha yang bergerak di bidang penjualan makanan ringan dan mi
 
 𖠿 **Tahun Berdiri** : 2022 – Sekarang
 
-## 🚨 Permasalahan & Solusi 
+## 🚨 𝐏𝐞𝐫𝐦𝐚𝐬𝐚𝐥𝐚𝐡𝐚𝐧 & 𝐒𝐨𝐥𝐮𝐬𝐢
 
 | Permasalahan | Solusi |
 |---|---|
@@ -35,7 +35,7 @@ Star Bud merupakan usaha yang bergerak di bidang penjualan makanan ringan dan mi
 | Pencatatan manual sering menyebabkan pesanan ganda (double order) | Sistem transaksi digital untuk mengurangi kesalahan pencatatan |
 | Stok bahan baku sering habis mendadak karena tidak terpantau | Sistem pemantauan stok otomatis yang berkurang setiap transaksi serta notifikasi ketika stok mulai menipis |
 
-## 📱 Tentang Aplikasi
+## 📱 𝐓𝐞𝐧𝐭𝐚𝐧𝐠 𝐀𝐩𝐥𝐢𝐤𝐚𝐬𝐢
 
 <p align="justify">
 Aplikasi StarBud merupakan aplikasi mobile yang dirancang untuk membantu usaha makanan dan minuman ringan dalam mengelola operasional secara lebih efektif dan terstruktur. Melalui aplikasi ini, karyawan dapat mencatat pesanan pelanggan secara digital sehingga dapat meminimalkan kesalahan pencatatan, seperti pesanan ganda yang sering terjadi pada sistem manual.
@@ -45,7 +45,7 @@ Aplikasi StarBud merupakan aplikasi mobile yang dirancang untuk membantu usaha m
 Selain itu, sistem juga dilengkapi dengan fitur pemantauan stok bahan baku yang akan berkurang secara otomatis setiap kali transaksi dilakukan. Dengan demikian, pemilik usaha dapat mengetahui kondisi ketersediaan bahan baku secara lebih akurat dan menghindari kehabisan stok secara tiba-tiba. Aplikasi ini juga menyediakan laporan penjualan harian yang membantu pemilik usaha memantau aktivitas penjualan serta perkembangan omzet secara lebih mudah.
 </p>
 
-## 🌟 Fitur Aplikasi
+## 🌟 𝐅𝐢𝐭𝐮𝐫 𝐀𝐩𝐥𝐢𝐤𝐚𝐬𝐢
 
 <p align="justify">
 Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan operasional usaha makanan dan minuman secara lebih terstruktur. Fitur utama dalam aplikasi ini mengacu pada konsep CRUD (Create, Read, Update, Delete) yang menjadi dasar dalam pengelolaan data seperti pesanan, stok bahan baku, dan data pengguna.  
@@ -84,7 +84,10 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
 |---|---|
 | <image src="https://github.com/user-attachments/assets/5b59666e-e6ec-4eee-93af-0cf1140f1245" width="510"/> | <image src="https://github.com/user-attachments/assets/af0e1607-06a2-4671-ae6d-2d3b60a3bfd7" width="500"/> |
 
-## 📁 Struktur Folder
+
+## 📁 𝐒𝐭𝐫𝐮𝐤𝐭𝐮𝐫 𝐅𝐨𝐥𝐝𝐞𝐫
+
+Struktur folder pada project StarBud disusun untuk mempermudah pengelolaan kode program dan pengembangan aplikasi
 
     /
     ├── android/                
@@ -144,10 +147,113 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
     └── pubspec.lock            
 
 
-## 🗄️ 𝖣𝖺𝗍𝖺𝖻𝖺𝗌𝖾
+## 🗄️ 𝐒𝐭𝐫𝐮𝐤𝐭𝐮𝐫  𝐃𝐚𝐭𝐚𝐛𝐚𝐬𝐞
+
+### 1. users
+Menyimpan data pengguna aplikasi seperti admin dan pegawai.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID pengguna |
+| username | text | nama pengguna |
+| role | text | peran pengguna (admin / pegawai) |
+| created_at | timestamptz | waktu akun dibuat |
+| is_active | bool | status aktif pengguna |
+
+---
 
 
-## 🧩 Implementasi Widget 
+### 2. categories
+Menyimpan kategori menu yang ada pada aplikasi.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID kategori |
+| name | text | nama kategori |
+| is_active | bool | status kategori |
+| created_at | timestamptz | waktu dibuat |
+
+---
+
+### 3. menu
+Menyimpan daftar menu makanan dan minuman.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID menu |
+| name | text | nama menu |
+| price | int | harga menu |
+| stock | int | jumlah stok |
+| status | bool | status menu tersedia / tidak |
+| category_id | uuid | relasi ke tabel categories |
+
+---
+
+### 4. orders
+Menyimpan data transaksi pesanan.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID transaksi |
+| user_id | uuid | pengguna yang melakukan transaksi |
+| total | int | total harga transaksi |
+| created_at | timestamptz | waktu transaksi |
+
+---
+
+
+### 5. order_items
+Menyimpan detail menu yang ada di setiap transaksi.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID detail transaksi |
+| order_id | uuid | relasi ke tabel orders |
+| menu_id | uuid | relasi ke tabel menu |
+| qty | int | jumlah menu |
+| price | int | harga menu saat transaksi |
+
+---
+
+### 6. stocks
+Menyimpan data stok bahan baku.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID stok |
+| name | text | nama bahan |
+| quantity | int | jumlah stok |
+| min_stock | int | batas minimal stok |
+| unit | text | satuan bahan |
+
+---
+
+
+### 7. recipes
+Menyimpan hubungan antara menu dan bahan baku.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID resep |
+| menu_id | uuid | relasi ke tabel menu |
+| stock_id | uuid | relasi ke tabel stocks |
+| quantity | int | jumlah bahan yang digunakan |
+
+---
+
+### 8. expenses
+Menyimpan data pengeluaran operasional.
+
+| Field | Tipe Data | Keterangan |
+|------|-----------|------------|
+| id | uuid | ID pengeluaran |
+| name | text | nama pengeluaran |
+| amount | int | jumlah biaya |
+| created_at | timestamptz | waktu pengeluaran |
+
+
+
+## 🧩 𝐈𝐦𝐩𝐥𝐞𝐦𝐞𝐧𝐭𝐚𝐬𝐢 𝐖𝐢𝐝𝐠𝐞𝐭
 
 Berikut merupakan implementasi widget Flutter pada aplikasi **Star Bud** yang digunakan untuk membangun tampilan antarmuka dan mendukung interaksi pengguna.
 
@@ -186,9 +292,8 @@ Berikut merupakan implementasi widget Flutter pada aplikasi **Star Bud** yang di
 | **Navigator** | `login_page.dart`, `welcome_page.dart`, `dashboard_page.dart`, `category_page.dart`, `menu_page.dart`, `stok_page.dart`, `laporan_page.dart`, `transaksi_page.dart`, `user_page.dart` |
 | **CircleAvatar** | `dashboard_page.dart`, `transaksi_page.dart`, `user_page.dart` |
 
-## 🗄️ 𝖣𝖺𝗍𝖺𝖻𝖺𝗌𝖾
 
-## ⚙️ 𝖳𝖾𝗄𝗇𝗈𝗅𝗈𝗀𝗂 
+## ⚙️ 𝐓𝐞𝐤𝐧𝐨𝐥𝐨𝐠𝐢
 
 
 <p>
@@ -203,7 +308,7 @@ Berikut merupakan implementasi widget Flutter pada aplikasi **Star Bud** yang di
 </p>
 
 
-
+## ➕ 𝐍𝐢𝐥𝐚𝐢 𝐓𝐚𝐦𝐛𝐚𝐡
 
 
 
