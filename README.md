@@ -51,6 +51,37 @@ Selain itu, sistem juga dilengkapi dengan fitur pemantauan stok bahan baku yang 
 Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan operasional usaha makanan dan minuman secara lebih terstruktur. Fitur utama dalam aplikasi ini mengacu pada konsep CRUD (Create, Read, Update, Delete) yang menjadi dasar dalam pengelolaan data seperti pesanan, stok bahan baku, dan data pengguna.  
 <p>
 
+### 1. Admin 🙎‍♂️ ˎˊ˗
+   
+✦ Login ke dalam sistem
+
+✦ Melihat dashboard untuk memantau aktivitas penjualan
+
+✦ Mengelola data menu makanan dan minuman
+
+✦ Mengelola kategori menu
+
+✦ Mengelola data stok bahan baku
+
+✦ Mengelola resep atau bahan yang digunakan pada menu
+
+✦ Melihat laporan penjualan
+
+✦ Mengelola data pengguna aplikasi
+
+### 3. Pegawai / Kasir 👩‍💻 ˎˊ˗
+   
+● Login ke dalam sistem
+
+● Melihat dashboard penjualan
+
+● Melihat daftar menu yang tersedia
+
+● Melakukan transaksi penjualan
+
+● Melihat riwayat transaksi
+
+###  ─── ⋆⋅☆⋅⋆ ──𝐓𝐚𝐦𝐩𝐢𝐥𝐚𝐧 𝐅𝐢𝐭𝐮𝐫 -𝐅𝐢𝐭𝐮𝐫 𝐀𝐩𝐥𝐢𝐤𝐚𝐬𝐢 𝐒𝐭𝐚𝐫𝐛𝐮𝐝 ─── ⋆⋅☆⋅⋆ ──
 
 ## 1️⃣ Dashboard 
 
@@ -308,7 +339,7 @@ Berikut merupakan implementasi widget Flutter pada aplikasi **Star Bud** yang di
 </p>
 
 
-## ➕ 𝐍𝐢𝐥𝐚𝐢 𝐓𝐚𝐦𝐛𝐚𝐡
+## ➕ 𝐏𝐞𝐧𝐞𝐫𝐚𝐩𝐚𝐧 𝐍𝐢𝐥𝐚𝐢 𝐓𝐚𝐦𝐛𝐚𝐡
 
 
 
