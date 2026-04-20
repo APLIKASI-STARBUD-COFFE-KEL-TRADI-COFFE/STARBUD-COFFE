@@ -377,6 +377,23 @@ Berikut merupakan implementasi widget Flutter pada aplikasi **Star Bud** yang di
 <img src="https://img.shields.io/badge/NAVIGATION-Navigator-blue?style=for-the-badge"/>
 <img src="https://img.shields.io/badge/ENV-flutter__dotenv-yellow?style=for-the-badge"/>
 
+Aplikasi ini dibangun dengan fokus pada performa yang responsif dan integrasi data real-time untuk mendukung operasional bisnis yang efisien. Berikut adalah rincian teknologi yang digunakan:
+
+### 1. Frontend & Bahasa Pemrograman
+
+- **Flutter & Dart:** Menggunakan Flutter sebagai framework UI untuk membangun aplikasi yang cross-platform dengan performa tinggi. Dart digunakan sebagai bahasa pemrograman utama yang memungkinkan pengembangan fitur manajemen stok dengan logika yang kuat dan konsisten.
+
+### 2. Backend & Database
+
+- **Supabase:** Digunakan sebagai solusi Backend-as-a-Service (BaaS). Supabase menangani penyimpanan data produk, manajemen inventaris, dan transaksi secara real-time. Keunggulannya dalam mendukung PostgreSQL sangat krusial untuk menjaga integritas data stok antar cabang atau perangkat.
+
+### 3. Manajemen Arsitektur & State
+  - **State Management (setState):** Mengandalkan manajemen state bawaan Flutter untuk menangani perubahan data yang bersifat lokal dan sederhana, memastikan UI selalu sinkron dengan input pengguna tanpa beban overhead yang besar.
+  - **Navigation (Navigator):** Menggunakan Navigator untuk mengelola alur perpindahan antar halaman (seperti dari daftar menu ke detail transaksi) secara terstruktur.
+
+### 4. Keamanan & Konfigurasi
+- **Environment Variables (flutter_dotenv):** Digunakan untuk mengelola konfigurasi sensitif seperti API Keys dan URL Database secara aman. Dengan memisahkan variabel lingkungan, integritas kredensial aplikasi tetap terjaga dan tidak terekspos secara langsung di kode sumber.
+
 </p>
 ---
 </details>
