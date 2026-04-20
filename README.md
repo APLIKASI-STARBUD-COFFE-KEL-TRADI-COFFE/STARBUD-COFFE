@@ -43,12 +43,11 @@ Aplikasi Star Bud dirancang dengan berbagai fitur yang mendukung pengelolaan ope
   
 <p>
 
-## 1️⃣ Login 🔐
+## 1️⃣ Dashboard 
 
-a.  🙎‍♂️ Login Admin
-
-
-b. 👩‍💻  Login Karyawan / Kasir
+| a. 🙎‍♂️ Dshboard Admin | b. 👩‍💻 Dashboard Pegawai / Kasir |
+|---|---|
+| <image src="https://github.com/user-attachments/assets/5b59666e-e6ec-4eee-93af-0cf1140f1245" width="510"/> | <image src="https://github.com/user-attachments/assets/af0e1607-06a2-4671-ae6d-2d3b60a3bfd7" width="500"/> |
   
 
 
