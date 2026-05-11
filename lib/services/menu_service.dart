@@ -88,7 +88,23 @@ class MenuService {
     await supabase.from('menu').update({'status': status}).eq('id', id);
   }
 
+  Future<bool> isMenuUsed(String id) async {
+    final res = await supabase
+        .from('order_items')
+        .select('id')
+        .eq('menu_id', id)
+        .limit(1);
+
+    return (res as List).isNotEmpty;
+  }
+
   Future<void> deleteMenu(String id) async {
+    final isUsed = await isMenuUsed(id);
+    if (isUsed) {
+      throw Exception("Menu sudah digunakan di transaksi");
+    }
+
+    await supabase.from('recipes').delete().eq('menu_id', id);
     await supabase.from('menu').delete().eq('id', id);
   }
 
@@ -108,4 +124,6 @@ class MenuService {
         })
         .asyncMap((event) async => await event);
   }
+
+  
 }

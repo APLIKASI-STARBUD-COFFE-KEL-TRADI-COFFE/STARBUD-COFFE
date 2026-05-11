@@ -255,120 +255,126 @@ class _UserPageState extends State<UserPage> {
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setStateDialog) {
-            return Stack(
-              children: [
-                AlertDialog(
-                  backgroundColor: Colors.white,
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  title: Text(
-                    user == null ? "Tambah User" : "Edit User",
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  content: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Form(
-                      key: formKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: accentColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: accentColor.withOpacity(0.2),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(18),
-                                  decoration: BoxDecoration(
-                                    color: accentColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    user == null
-                                        ? Icons.person_add
-                                        : Icons.edit,
-                                    color: Colors.white,
-                                    size: 28,
-                                  ),
-                                ),
-                                const SizedBox(height: 14),
-                                Text(
-                                  user == null
-                                      ? "Tambah User Baru"
-                                      : "Edit User",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 16,
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  "Isi data dengan benar",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    color: Colors.black54,
-                                  ),
-                                ),
-                              ],
-                            ),
+            final isMobile = MediaQuery.of(context).size.width < 600;
+
+            return AlertDialog(
+              actionsAlignment: MainAxisAlignment.end,
+              backgroundColor: Colors.white,
+              elevation: 20,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              title: Text(
+                user == null ? "Tambah User" : "Edit User",
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                  color: Colors.black87,
+                ),
+              ),
+              content: SingleChildScrollView(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width > 700
+                      ? 650
+                      : MediaQuery.of(context).size.width * 0.9,
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: accentColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: accentColor.withOpacity(0.2),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 20),
-                          Flexible(
-                            child: SingleChildScrollView(
-                              child: Column(
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(18),
+                                decoration: BoxDecoration(
+                                  color: accentColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  user == null ? Icons.person_add : Icons.edit,
+                                  color: Colors.white,
+                                  size: 28,
+                                ),
+                              ),
+                              const SizedBox(height: 14),
+                              Text(
+                                user == null ? "Tambah User Baru" : "Edit User",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                "Isi data dengan benar",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Icon(
-                                        Icons.info_outline,
-                                        size: 16,
-                                        color: Colors.grey,
-                                      ),
-                                      const SizedBox(width: 6),
-                                      Text(
-                                        "Informasi User",
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 13,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ],
+                                  Icon(
+                                    Icons.info_outline,
+                                    size: 16,
+                                    color: Colors.grey,
                                   ),
-                                  const SizedBox(height: 10),
-                                  Divider(
-                                    thickness: 1,
-                                    color: Colors.grey.withOpacity(0.2),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    "Informasi User",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                  const SizedBox(height: 10),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextFormField(
+                                ],
+                              ),
+
+                              const SizedBox(height: 10),
+
+                              Divider(
+                                thickness: 1,
+                                color: Colors.grey.withOpacity(0.2),
+                              ),
+
+                              const SizedBox(height: 10),
+
+                              isMobile
+                                  ? Column(
+                                      children: [
+                                        TextFormField(
                                           controller: emailController,
                                           enabled: user == null,
                                           decoration: InputDecoration(
                                             labelText: "Email",
+                                            hintText: user != null
+                                                ? "Email tidak bisa diubah"
+                                                : "Masukkan email",
                                             labelStyle: GoogleFonts.poppins(
                                               fontSize: 13,
                                               color: Colors.grey,
@@ -378,9 +384,9 @@ class _UserPageState extends State<UserPage> {
                                             ),
                                             contentPadding:
                                                 const EdgeInsets.symmetric(
-                                              horizontal: 16,
-                                              vertical: 14,
-                                            ),
+                                                  horizontal: 16,
+                                                  vertical: 14,
+                                                ),
                                             filled: true,
                                             fillColor: const Color(0xFFF9F9F9),
                                             enabledBorder: OutlineInputBorder(
@@ -406,19 +412,24 @@ class _UserPageState extends State<UserPage> {
                                           ),
                                           validator: (val) {
                                             if (user != null) return null;
-                                            if (val == null || val.isEmpty)
+
+                                            if (val == null || val.isEmpty) {
                                               return "Wajib diisi";
+                                            }
+
                                             if (!RegExp(
                                               r'\S+@\S+\.\S+',
-                                            ).hasMatch(val))
+                                            ).hasMatch(val)) {
                                               return "Email tidak valid";
+                                            }
+
                                             return null;
                                           },
                                         ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Expanded(
-                                        child: TextFormField(
+
+                                        const SizedBox(height: 10),
+
+                                        TextFormField(
                                           controller: nameController,
                                           decoration: InputDecoration(
                                             labelText: "Username",
@@ -431,9 +442,9 @@ class _UserPageState extends State<UserPage> {
                                             ),
                                             contentPadding:
                                                 const EdgeInsets.symmetric(
-                                              horizontal: 16,
-                                              vertical: 14,
-                                            ),
+                                                  horizontal: 16,
+                                                  vertical: 14,
+                                                ),
                                             filled: true,
                                             fillColor: const Color(0xFFF9F9F9),
                                             enabledBorder: OutlineInputBorder(
@@ -458,21 +469,157 @@ class _UserPageState extends State<UserPage> {
                                             ),
                                           ),
                                           validator: (val) {
-                                            if (val == null || val.isEmpty)
+                                            if (val == null || val.isEmpty) {
                                               return "Wajib diisi";
-                                            if (val.length < 3)
+                                            }
+
+                                            if (val.length < 3) {
                                               return "Minimal 3 karakter";
-                                            if (val.length > 20)
+                                            }
+
+                                            if (val.length > 20) {
                                               return "Maksimal 20 karakter";
+                                            }
+
                                             return null;
                                           },
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 14),
-                                  if (user == null)
-                                    Column(
+                                      ],
+                                    )
+                                  : Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextFormField(
+                                            controller: emailController,
+                                            enabled: user == null,
+                                            decoration: InputDecoration(
+                                              labelText: "Email",
+                                              hintText: user != null
+                                                  ? "Email tidak bisa diubah"
+                                                  : "Masukkan email",
+                                              labelStyle: GoogleFonts.poppins(
+                                                fontSize: 13,
+                                                color: Colors.grey,
+                                              ),
+                                              prefixIcon: const Icon(
+                                                Icons.email_outlined,
+                                              ),
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 16,
+                                                    vertical: 14,
+                                                  ),
+                                              filled: true,
+                                              fillColor: const Color(
+                                                0xFFF9F9F9,
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(14),
+                                                borderSide: BorderSide(
+                                                  color: Colors.grey.shade300,
+                                                ),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(14),
+                                                borderSide: BorderSide(
+                                                  color: accentColor,
+                                                  width: 1.5,
+                                                ),
+                                              ),
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(14),
+                                                borderSide: BorderSide.none,
+                                              ),
+                                            ),
+                                            validator: (val) {
+                                              if (user != null) return null;
+
+                                              if (val == null || val.isEmpty) {
+                                                return "Wajib diisi";
+                                              }
+
+                                              if (!RegExp(
+                                                r'\S+@\S+\.\S+',
+                                              ).hasMatch(val)) {
+                                                return "Email tidak valid";
+                                              }
+
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+
+                                        const SizedBox(width: 10),
+
+                                        Expanded(
+                                          child: TextFormField(
+                                            controller: nameController,
+                                            decoration: InputDecoration(
+                                              labelText: "Username",
+                                              labelStyle: GoogleFonts.poppins(
+                                                fontSize: 13,
+                                                color: Colors.grey,
+                                              ),
+                                              prefixIcon: const Icon(
+                                                Icons.person_outline,
+                                              ),
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 16,
+                                                    vertical: 14,
+                                                  ),
+                                              filled: true,
+                                              fillColor: const Color(
+                                                0xFFF9F9F9,
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(14),
+                                                borderSide: BorderSide(
+                                                  color: Colors.grey.shade300,
+                                                ),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(14),
+                                                borderSide: BorderSide(
+                                                  color: accentColor,
+                                                  width: 1.5,
+                                                ),
+                                              ),
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(14),
+                                                borderSide: BorderSide.none,
+                                              ),
+                                            ),
+                                            validator: (val) {
+                                              if (val == null || val.isEmpty) {
+                                                return "Wajib diisi";
+                                              }
+
+                                              if (val.length < 3) {
+                                                return "Minimal 3 karakter";
+                                              }
+
+                                              if (val.length > 20) {
+                                                return "Maksimal 20 karakter";
+                                              }
+
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                              const SizedBox(height: 14),
+
+                              user == null
+                                  ? Column(
                                       children: [
                                         Row(
                                           children: [
@@ -484,62 +631,72 @@ class _UserPageState extends State<UserPage> {
                                                     setStateDialog(() {}),
                                                 validator: (val) {
                                                   if (val == null ||
-                                                      val.isEmpty)
+                                                      val.isEmpty) {
                                                     return "Wajib diisi";
-                                                  if (val.length < 6)
+                                                  }
+
+                                                  if (val.length < 6) {
                                                     return "Minimal 6 karakter";
+                                                  }
+
                                                   if (!RegExp(
                                                     r'[0-9]',
-                                                  ).hasMatch(val))
+                                                  ).hasMatch(val)) {
                                                     return "Harus ada angka";
+                                                  }
+
                                                   if (!RegExp(
                                                     r'[A-Z]',
-                                                  ).hasMatch(val))
+                                                  ).hasMatch(val)) {
                                                     return "Harus ada huruf besar";
+                                                  }
+
                                                   if (!RegExp(
                                                     r'[!@#$%^&*(),.?":{}|<>]',
-                                                  ).hasMatch(val))
+                                                  ).hasMatch(val)) {
                                                     return "Harus ada simbol";
+                                                  }
+
                                                   return null;
                                                 },
                                                 decoration: InputDecoration(
                                                   labelText: "Password",
                                                   labelStyle:
                                                       GoogleFonts.poppins(
-                                                    fontSize: 13,
-                                                    color: Colors.grey,
-                                                  ),
+                                                        fontSize: 13,
+                                                        color: Colors.grey,
+                                                      ),
                                                   prefixIcon: const Icon(
                                                     Icons.lock_outline,
                                                   ),
                                                   enabledBorder:
                                                       OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                      14,
-                                                    ),
-                                                    borderSide: BorderSide(
-                                                      color: Colors
-                                                          .grey
-                                                          .shade300,
-                                                    ),
-                                                  ),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              14,
+                                                            ),
+                                                        borderSide: BorderSide(
+                                                          color: Colors
+                                                              .grey
+                                                              .shade300,
+                                                        ),
+                                                      ),
                                                   focusedBorder:
                                                       OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                      14,
-                                                    ),
-                                                    borderSide: BorderSide(
-                                                      color: accentColor,
-                                                      width: 1.5,
-                                                    ),
-                                                  ),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              14,
+                                                            ),
+                                                        borderSide: BorderSide(
+                                                          color: accentColor,
+                                                          width: 1.5,
+                                                        ),
+                                                      ),
                                                   contentPadding:
                                                       const EdgeInsets.symmetric(
-                                                    horizontal: 16,
-                                                    vertical: 14,
-                                                  ),
+                                                        horizontal: 16,
+                                                        vertical: 14,
+                                                      ),
                                                   suffixIcon: IconButton(
                                                     icon: Icon(
                                                       obscure
@@ -555,7 +712,9 @@ class _UserPageState extends State<UserPage> {
                                                 ),
                                               ),
                                             ),
+
                                             const SizedBox(width: 10),
+
                                             Expanded(
                                               child: TextFormField(
                                                 controller:
@@ -565,51 +724,55 @@ class _UserPageState extends State<UserPage> {
                                                     setStateDialog(() {}),
                                                 validator: (val) {
                                                   if (val == null ||
-                                                      val.isEmpty)
+                                                      val.isEmpty) {
                                                     return "Wajib diisi";
+                                                  }
+
                                                   if (val !=
-                                                      passController.text)
+                                                      passController.text) {
                                                     return "Password tidak sama";
+                                                  }
+
                                                   return null;
                                                 },
                                                 decoration: InputDecoration(
                                                   labelText: "Confirm Password",
                                                   labelStyle:
                                                       GoogleFonts.poppins(
-                                                    fontSize: 13,
-                                                    color: Colors.grey,
-                                                  ),
+                                                        fontSize: 13,
+                                                        color: Colors.grey,
+                                                      ),
                                                   prefixIcon: const Icon(
                                                     Icons.lock_outline,
                                                   ),
                                                   enabledBorder:
                                                       OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                      14,
-                                                    ),
-                                                    borderSide: BorderSide(
-                                                      color: Colors
-                                                          .grey
-                                                          .shade300,
-                                                    ),
-                                                  ),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              14,
+                                                            ),
+                                                        borderSide: BorderSide(
+                                                          color: Colors
+                                                              .grey
+                                                              .shade300,
+                                                        ),
+                                                      ),
                                                   focusedBorder:
                                                       OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                      14,
-                                                    ),
-                                                    borderSide: BorderSide(
-                                                      color: accentColor,
-                                                      width: 1.5,
-                                                    ),
-                                                  ),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              14,
+                                                            ),
+                                                        borderSide: BorderSide(
+                                                          color: accentColor,
+                                                          width: 1.5,
+                                                        ),
+                                                      ),
                                                   contentPadding:
                                                       const EdgeInsets.symmetric(
-                                                    horizontal: 16,
-                                                    vertical: 14,
-                                                  ),
+                                                        horizontal: 16,
+                                                        vertical: 14,
+                                                      ),
                                                   suffixIcon: Row(
                                                     mainAxisSize:
                                                         MainAxisSize.min,
@@ -626,19 +789,20 @@ class _UserPageState extends State<UserPage> {
                                                               : Icons.close,
                                                           color:
                                                               confirmPassController
-                                                                          .text ==
-                                                                      passController
-                                                                          .text
-                                                                  ? Colors.green
-                                                                  : Colors.red,
+                                                                      .text ==
+                                                                  passController
+                                                                      .text
+                                                              ? Colors.green
+                                                              : Colors.red,
                                                         ),
+
                                                       IconButton(
                                                         icon: Icon(
                                                           obscureConfirm
                                                               ? Icons
-                                                                  .visibility_off
+                                                                    .visibility_off
                                                               : Icons
-                                                                  .visibility,
+                                                                    .visibility,
                                                         ),
                                                         onPressed: () {
                                                           setStateDialog(() {
@@ -654,7 +818,9 @@ class _UserPageState extends State<UserPage> {
                                             ),
                                           ],
                                         ),
+
                                         const SizedBox(height: 8),
+
                                         ClipRRect(
                                           borderRadius: BorderRadius.circular(
                                             10,
@@ -673,360 +839,363 @@ class _UserPageState extends State<UserPage> {
                                                 Colors.grey.shade200,
                                             valueColor:
                                                 AlwaysStoppedAnimation<Color>(
-                                              passController.text.length < 6
-                                                  ? Colors.red
-                                                  : passController
-                                                          .text
-                                                          .length <
-                                                      10
-                                                  ? Colors.orange
-                                                  : Colors.green,
-                                            ),
+                                                  (passController.text.length <
+                                                              6 ||
+                                                          !RegExp(
+                                                            r'[A-Z]',
+                                                          ).hasMatch(
+                                                            passController.text,
+                                                          ))
+                                                      ? Colors.red
+                                                      : (!RegExp(
+                                                              r'[0-9]',
+                                                            ).hasMatch(
+                                                              passController
+                                                                  .text,
+                                                            ) ||
+                                                            !RegExp(
+                                                              r'[!@#$%^&*(),.?":{}|<>]',
+                                                            ).hasMatch(
+                                                              passController
+                                                                  .text,
+                                                            ))
+                                                      ? Colors.orange
+                                                      : Colors.green,
+                                                ),
                                           ),
                                         ),
+
                                         const SizedBox(height: 16),
                                       ],
-                                    ),
-                                  DropdownButtonFormField<String>(
-                                    isExpanded: true,
-                                    value: selectedRole,
-                                    decoration: InputDecoration(
-                                      labelText: "Role",
-                                      labelStyle: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        color: Colors.grey,
-                                      ),
-                                      prefixIcon: const Icon(
-                                        Icons.badge_outlined,
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                    items: ['admin', 'pegawai']
-                                        .map(
-                                          (r) => DropdownMenuItem(
-                                            value: r,
-                                            child: Text(
-                                              r,
-                                              style: GoogleFonts.poppins(),
-                                            ),
-                                          ),
-                                        )
-                                        .toList(),
-                                    onChanged: (val) {
-                                      setStateDialog(() {
-                                        selectedRole = val!;
-                                      });
-                                    },
+                                    )
+                                  : const SizedBox(),
+                              DropdownButtonFormField<String>(
+                                isExpanded: true,
+                                value: selectedRole,
+                                decoration: InputDecoration(
+                                  labelText: "Role",
+                                  labelStyle: GoogleFonts.poppins(
+                                    fontSize: 15,
+                                    color: Colors.grey,
                                   ),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    "* Pastikan data sudah benar sebelum disimpan",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 11,
-                                      color: Colors.grey,
-                                    ),
+                                  prefixIcon: const Icon(Icons.badge_outlined),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
                                   ),
-                                  const SizedBox(height: 8),
-                                ],
+                                ),
+                                items: ['admin', 'pegawai']
+                                    .map(
+                                      (r) => DropdownMenuItem(
+                                        value: r,
+                                        child: Text(
+                                          r,
+                                          style: GoogleFonts.poppins(),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (val) {
+                                  setStateDialog(() {
+                                    selectedRole = val!;
+                                  });
+                                },
                               ),
-                            ),
+                              const SizedBox(height: 12),
+                              Text(
+                                "* Pastikan data sudah benar sebelum disimpan",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 11,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  actions: [
-                    if (user == null)
-                      TextButton(
-                        onPressed: () {
-                          final isEmpty =
-                              emailController.text.isEmpty &&
-                              nameController.text.isEmpty &&
-                              passController.text.isEmpty &&
-                              confirmPassController.text.isEmpty;
+                ),
+              ),
+              actions: [
+                if (user == null)
+                  TextButton(
+                    onPressed: () {
+                      final isEmpty =
+                          emailController.text.isEmpty &&
+                          nameController.text.isEmpty &&
+                          passController.text.isEmpty &&
+                          confirmPassController.text.isEmpty;
 
-                          if (isEmpty) {
-                            showInfoDialog("Tidak ada perubahan data");
-                            return;
-                          }
+                      if (isEmpty) {
+                        showInfoDialog("Tidak ada perubahan data");
+                        return;
+                      }
 
-                          showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              title: Row(
-                                children: [
-                                  Icon(Icons.refresh, color: Colors.orange),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    "Reset Form",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              content: Text(
-                                "Semua input akan dihapus",
-                                style: GoogleFonts.poppins(),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text(
-                                    "Batal",
-                                    style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: accentColor,
-                                  ),
-                                  onPressed: () {
-                                    if (mounted) Navigator.pop(context);
-
-                                    setStateDialog(() {
-                                      emailController.clear();
-                                      nameController.clear();
-                                      passController.clear();
-                                      confirmPassController.clear();
-                                      selectedRole = 'pegawai';
-                                    });
-
-                                    showSuccessDialog("Form berhasil direset");
-                                  },
-                                  child: Text(
-                                    "Reset",
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        child: Text("Reset", style: GoogleFonts.poppins()),
-                      ),
-                    TextButton(
-                      onPressed: () {
-                        final isDirty = user == null
-                            ? emailController.text.isNotEmpty ||
-                                  nameController.text.isNotEmpty ||
-                                  passController.text.isNotEmpty ||
-                                  confirmPassController.text.isNotEmpty
-                            : nameController.text != user.username ||
-                                  selectedRole != user.role;
-
-                        if (!isDirty) {
-                          if (mounted) Navigator.pop(context);
-                          return;
-                        }
-
-                        showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            title: Row(
-                              children: [
-                                Icon(
-                                  Icons.warning_amber_rounded,
-                                  color: Colors.orange,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  "Keluar?",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            content: Text(
-                              "Data yang sudah diisi tidak akan tersimpan ",
-                              style: GoogleFonts.poppins(),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text(
-                                  "Batal",
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: accentColor,
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  "Keluar",
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          title: Row(
+                            children: [
+                              Icon(Icons.refresh, color: Colors.orange),
+                              const SizedBox(width: 8),
+                              Text(
+                                "Reset Form",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black87,
                                 ),
                               ),
                             ],
                           ),
-                        );
-                      },
-                      child: Text("Batal", style: GoogleFonts.poppins()),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: accentColor,
-                        elevation: 6,
-                        shadowColor: accentColor.withOpacity(0.4),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 12,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onPressed: isLoading
-                          ? null
-                          : () async {
-                              if (!formKey.currentState!.validate()) return;
-
-                              setStateDialog(() => isLoading = true);
-
-                              try {
-                                if (user != null) {
-                                  final isSame =
-                                      nameController.text == user.username &&
-                                      selectedRole == user.role;
-
-                                  if (isSame) {
-                                    setStateDialog(() => isLoading = false);
-                                    showInfoDialog("Tidak ada perubahan data");
-                                    return;
-                                  }
-                                }
-
-                                final username = nameController.text
-                                    .trim()
-                                    .toLowerCase();
-
-                                final usernameExist = users.any(
-                                  (u) =>
-                                      u.username.toLowerCase() == username &&
-                                      u.id != user?.id,
-                                );
-
-                                if (usernameExist) {
-                                  showInfoDialog("Username sudah digunakan");
-                                  setStateDialog(() => isLoading = false);
-                                  return;
-                                }
-                                if (user == null) {
-                                  await service.addUser(
-                                    emailController.text.trim(),
-                                    nameController.text.trim(),
-                                    passController.text.trim(),
-                                    selectedRole,
-                                  );
-                                  if (!mounted) return;
-
-                                  loadUsers();
-
-                                  Navigator.pop(context);
-
-                                  showCustomDialog(
-                                    title: "Berhasil",
-                                    message: "User berhasil ditambahkan",
-                                    icon: Icons.check_circle,
-                                    color: accentColor,
-                                  );
-                                } else {
-                                  await service.updateUser(
-                                    user.id,
-                                    nameController.text.trim(),
-                                    selectedRole,
-                                  );
-
-                                  if (!mounted) return;
-
-                                  loadUsers();
-
-                                  Navigator.pop(context);
-
-                                  showCustomDialog(
-                                    title: "Berhasil",
-                                    message: "User berhasil diupdate",
-                                    icon: Icons.check_circle,
-                                    color: accentColor,
-                                  );
-                                }
-                              } on AuthException catch (e) {
-                                if (!mounted) return;
-                                showInfoDialog(e.message);
-                              } on PostgrestException catch (e) {
-                                if (!mounted) return;
-                                showInfoDialog("Error database: ${e.message}");
-                              } catch (e) {
-                                if (!mounted) return;
-                                showInfoDialog("Terjadi kesalahan");
-                              } finally {
-                                if (mounted) {
-                                  setStateDialog(() => isLoading = false);
-                                }
-                              }
-                            },
-                      child: isLoading
-                          ? Shimmer.fromColors(
-                              baseColor: Colors.white.withOpacity(0.3),
-                              highlightColor: Colors.white,
+                          content: Text(
+                            "Semua input akan dihapus",
+                            style: GoogleFonts.poppins(),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
                               child: Text(
-                                "Menyimpan...",
+                                "Batal",
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: accentColor,
+                              ),
+                              onPressed: () {
+                                if (mounted) Navigator.pop(context);
+
+                                setStateDialog(() {
+                                  emailController.clear();
+                                  nameController.clear();
+                                  passController.clear();
+                                  confirmPassController.clear();
+                                  selectedRole = 'pegawai';
+                                });
+
+                                showSuccessDialog("Form berhasil direset");
+                              },
+                              child: Text(
+                                "Reset",
                                 style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                            )
-                          : Text(
-                              "Simpan",
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    child: Text("Reset", style: GoogleFonts.poppins()),
+                  ),
+                TextButton(
+                  onPressed: () {
+                    final isDirty = user == null
+                        ? emailController.text.isNotEmpty ||
+                              nameController.text.isNotEmpty ||
+                              passController.text.isNotEmpty ||
+                              confirmPassController.text.isNotEmpty
+                        : nameController.text != user.username ||
+                              selectedRole != user.role;
+
+                    if (!isDirty) {
+                      if (mounted) Navigator.pop(context);
+                      return;
+                    }
+
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        title: Row(
+                          children: [
+                            Icon(
+                              Icons.warning_amber_rounded,
+                              color: Colors.orange,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              "Keluar?",
+                              style: GoogleFonts.poppins(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ],
+                        ),
+                        content: Text(
+                          "Data yang sudah diisi tidak akan tersimpan ",
+                          style: GoogleFonts.poppins(),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              "Batal",
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: accentColor,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              "Keluar",
                               style: GoogleFonts.poppins(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                    ),
-                  ],
-                ),
-                if (isLoading)
-                  Positioned.fill(
-                    child: AbsorbPointer(
-                      absorbing: true,
-                      child: Container(
-                        color: Colors.black.withOpacity(0.2),
-                        child: const Center(child: CircularProgressIndicator()),
+                          ),
+                        ],
                       ),
+                    );
+                  },
+                  child: Text("Batal", style: GoogleFonts.poppins()),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: accentColor,
+                    elevation: 6,
+                    shadowColor: accentColor.withOpacity(0.4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
+                  onPressed: isLoading
+                      ? null
+                      : () async {
+                          if (!formKey.currentState!.validate()) return;
+
+                          setStateDialog(() => isLoading = true);
+
+                          try {
+                            if (user != null) {
+                              final isSame =
+                                  nameController.text == user.username &&
+                                  selectedRole == user.role;
+
+                              if (isSame) {
+                                setStateDialog(() => isLoading = false);
+                                showInfoDialog("Tidak ada perubahan data");
+                                return;
+                              }
+                            }
+
+                            final username = nameController.text
+                                .trim()
+                                .toLowerCase();
+
+                            final usernameExist = users.any(
+                              (u) =>
+                                  u.username.toLowerCase() == username &&
+                                  u.id != user?.id,
+                            );
+
+                            if (usernameExist) {
+                              showInfoDialog("Username sudah digunakan");
+                              setStateDialog(() => isLoading = false);
+                              return;
+                            }
+
+                            if (user == null) {
+                              await service.addUser(
+                                emailController.text.trim(),
+                                nameController.text.trim(),
+                                passController.text.trim(),
+                                selectedRole,
+                              );
+                              if (!mounted) return;
+
+                              loadUsers();
+
+                              Navigator.pop(context);
+
+                              showCustomDialog(
+                                title: "Berhasil",
+                                message: "User berhasil ditambahkan",
+                                icon: Icons.check_circle,
+                                color: accentColor,
+                              );
+                            } else {
+                              await service.updateUser(
+                                user.id,
+                                nameController.text.trim(),
+                                selectedRole,
+                              );
+
+                              if (!mounted) return;
+
+                              loadUsers();
+
+                              Navigator.pop(context);
+
+                              showCustomDialog(
+                                title: "Berhasil",
+                                message: "User berhasil diupdate",
+                                icon: Icons.check_circle,
+                                color: accentColor,
+                              );
+                            }
+                          } on AuthException catch (e) {
+                            if (!mounted) return;
+                            showInfoDialog(e.message);
+                          } on PostgrestException catch (e) {
+                            if (!mounted) return;
+                            showInfoDialog("Error database: ${e.message}");
+                          } catch (e) {
+                            if (!mounted) return;
+                            showInfoDialog("Terjadi kesalahan");
+                          } finally {
+                            if (mounted) {
+                              setStateDialog(() => isLoading = false);
+                            }
+                          }
+                        },
+                  child: isLoading
+                      ? Shimmer.fromColors(
+                          baseColor: Colors.white.withOpacity(0.3),
+                          highlightColor: Colors.white,
+                          child: Text(
+                            "Menyimpan...",
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        )
+                      : Text(
+                          "Simpan",
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                ),
               ],
             );
           },
@@ -1288,99 +1457,219 @@ class _UserPageState extends State<UserPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Material(
-                        elevation: 2,
-                        borderRadius: BorderRadius.circular(12),
-                        child: DropdownButtonFormField<String>(
-                          value: sort,
-                          decoration: InputDecoration(
-                            labelText: "Sort",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isNarrow = constraints.maxWidth < 500;
+
+                    if (isNarrow) {
+                      return Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Material(
+                                  elevation: 2,
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: DropdownButtonFormField<String>(
+                                    value: sort,
+                                    decoration: InputDecoration(
+                                      labelText: "Sort",
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                    ),
+                                    items: const [
+                                      DropdownMenuItem(
+                                        value: 'nama',
+                                        child: Text('Nama'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: 'status',
+                                        child: Text('Status'),
+                                      ),
+                                    ],
+                                    onChanged: (val) {
+                                      setState(() => sort = val!);
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Material(
+                                  elevation: 2,
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: DropdownButtonFormField<String>(
+                                    value: filter,
+                                    decoration: InputDecoration(
+                                      labelText: "Filter",
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                    ),
+                                    items: const [
+                                      DropdownMenuItem(
+                                        value: 'semua',
+                                        child: Text('Semua'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: 'aktif',
+                                        child: Text('Aktif'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: 'nonaktif',
+                                        child: Text('Nonaktif'),
+                                      ),
+                                    ],
+                                    onChanged: (val) {
+                                      setState(() => filter = val!);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          items: [
-                            DropdownMenuItem(
-                              value: 'nama',
-                              child: Text('Nama'),
+
+                          const SizedBox(height: 10),
+
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: accentColor,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: 14,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onPressed: () => showUserForm(),
+                              icon: const Icon(Icons.add, size: 18),
+                              label: Text(
+                                "Tambah",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
-                            DropdownMenuItem(
-                              value: 'status',
-                              child: Text('Status'),
-                            ),
-                          ],
-                          onChanged: (val) {
-                            setState(() => sort = val!);
-                          },
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Material(
-                        elevation: 2,
-                        borderRadius: BorderRadius.circular(12),
-                        child: DropdownButtonFormField<String>(
-                          value: filter,
-                          decoration: InputDecoration(
-                            labelText: "Filter",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
                           ),
-                          items: [
-                            DropdownMenuItem(
-                              value: 'semua',
-                              child: Text('Semua'),
+                        ],
+                      );
+                    }
+
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Material(
+                                  elevation: 2,
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: DropdownButtonFormField<String>(
+                                    value: sort,
+                                    decoration: InputDecoration(
+                                      labelText: "Sort",
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                    ),
+                                    items: const [
+                                      DropdownMenuItem(
+                                        value: 'nama',
+                                        child: Text('Nama'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: 'status',
+                                        child: Text('Status'),
+                                      ),
+                                    ],
+                                    onChanged: (val) {
+                                      setState(() => sort = val!);
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Material(
+                                  elevation: 2,
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: DropdownButtonFormField<String>(
+                                    value: filter,
+                                    decoration: InputDecoration(
+                                      labelText: "Filter",
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                    ),
+                                    items: const [
+                                      DropdownMenuItem(
+                                        value: 'semua',
+                                        child: Text('Semua'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: 'aktif',
+                                        child: Text('Aktif'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: 'nonaktif',
+                                        child: Text('Nonaktif'),
+                                      ),
+                                    ],
+                                    onChanged: (val) {
+                                      setState(() => filter = val!);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(width: 12),
+
+                        ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: accentColor,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 16,
                             ),
-                            DropdownMenuItem(
-                              value: 'aktif',
-                              child: Text('Aktif'),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            DropdownMenuItem(
-                              value: 'nonaktif',
-                              child: Text('Nonaktif'),
+                          ),
+                          onPressed: () => showUserForm(),
+                          icon: const Icon(Icons.add, size: 18),
+                          label: Text(
+                            "Tambah",
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
                             ),
-                          ],
-                          onChanged: (val) {
-                            setState(() => filter = val!);
-                          },
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: accentColor,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 14,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onPressed: () => showUserForm(),
-                      icon: const Icon(Icons.add, size: 18),
-                      label: Text(
-                        "Tambah",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
+                      ],
+                    );
+                  },
                 ),
               ],
             ),
@@ -1593,13 +1882,16 @@ class _UserPageState extends State<UserPage> {
                                               margin: const EdgeInsets.only(
                                                 top: 4,
                                               ),
-                                              padding: const EdgeInsets.symmetric(
-                                                horizontal: 8,
-                                                vertical: 2,
-                                              ),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 8,
+                                                    vertical: 2,
+                                                  ),
                                               decoration: BoxDecoration(
                                                 color: u.role == 'admin'
-                                                    ? Colors.red.withOpacity(0.1)
+                                                    ? Colors.red.withOpacity(
+                                                        0.1,
+                                                      )
                                                     : Colors.blue.withOpacity(
                                                         0.1,
                                                       ),
@@ -1662,6 +1954,12 @@ class _UserPageState extends State<UserPage> {
                                                         icon: Icons.info,
                                                         color: accentColor,
                                                       );
+
+                                                      setState(
+                                                        () => loadingUserId =
+                                                            null,
+                                                      );
+
                                                       return;
                                                     }
 
@@ -1673,8 +1971,8 @@ class _UserPageState extends State<UserPage> {
                                                           shape: RoundedRectangleBorder(
                                                             borderRadius:
                                                                 BorderRadius.circular(
-                                                              20,
-                                                            ),
+                                                                  20,
+                                                                ),
                                                           ),
                                                           title: Row(
                                                             children: [
@@ -1706,8 +2004,8 @@ class _UserPageState extends State<UserPage> {
                                                             TextButton(
                                                               onPressed: () =>
                                                                   Navigator.pop(
-                                                                context,
-                                                              ),
+                                                                    context,
+                                                                  ),
                                                               child: Text(
                                                                 "Batal",
                                                                 style:
@@ -1722,8 +2020,8 @@ class _UserPageState extends State<UserPage> {
                                                               onPressed: () async {
                                                                 await service
                                                                     .deactivateUser(
-                                                                  u.id,
-                                                                );
+                                                                      u.id,
+                                                                    );
 
                                                                 if (!mounted)
                                                                   return;
@@ -1807,124 +2105,120 @@ class _UserPageState extends State<UserPage> {
                                         ),
                                       ),
                                       const SizedBox(width: 10),
-                                      FutureBuilder<bool>(
-                                        future: service.isUserUsed(u.id),
-                                        builder: (context, snapshot) {
-                                          final isUsed =
-                                              snapshot.data ?? false;
+                                      Tooltip(
+                                        message: "Hapus User",
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            size: 20,
+                                          ),
+                                          color: Colors.red,
+                                          padding: EdgeInsets.zero,
+                                          constraints: const BoxConstraints(),
+                                          onPressed: () async {
+                                            final currentUserId = Supabase
+                                                .instance
+                                                .client
+                                                .auth
+                                                .currentUser
+                                                ?.id;
 
-                                          return Tooltip(
-                                            message: isUsed
-                                                ? "User sudah dipakai di transaksi"
-                                                : "Hapus User",
-                                            child: IconButton(
-                                              icon: const Icon(
-                                                Icons.delete,
-                                                size: 20,
-                                              ),
-                                              color: isUsed
-                                                  ? Colors.grey
-                                                  : Colors.red,
-                                              padding: EdgeInsets.zero,
-                                              constraints:
-                                                  const BoxConstraints(),
-                                              onPressed: isUsed
-                                                  ? null
-                                                  : () async {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (_) => AlertDialog(
-                                                          title: Text(
-                                                            "Hapus User",
-                                                            style: GoogleFonts.poppins(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                            ),
+                                            if (u.id == currentUserId) {
+                                              showCustomDialog(
+                                                title: "Tidak Bisa",
+                                                message:
+                                                    "Kamu tidak bisa menghapus akun sendiri",
+                                                icon: Icons.lock_outline,
+                                                color: Colors.orange,
+                                              );
+                                              return;
+                                            }
+
+                                            final isUsed = await service
+                                                .isUserUsed(u.id);
+
+                                            if (isUsed) {
+                                              showCustomDialog(
+                                                title: "Gagal Dihapus",
+                                                message:
+                                                    "User ini tidak dapat dihapus karena sudah memiliki riwayat transaksi. Silakan nonaktifkan user sebagai gantinya.",
+                                                icon: Icons.error_outline,
+                                                color: Colors.red,
+                                              );
+                                              return;
+                                            }
+
+                                            showDialog(
+                                              context: context,
+                                              builder: (_) => AlertDialog(
+                                                actionsAlignment:
+                                                    MainAxisAlignment.end,
+                                                title: Text(
+                                                  "Hapus User",
+                                                  style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                content: Text(
+                                                  "Yakin hapus ${u.username}?",
+                                                  style: GoogleFonts.poppins(),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    child: Text(
+                                                      "Batal",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                            color: Colors
+                                                                .grey[700],
                                                           ),
-                                                          content: Text(
-                                                            "Yakin hapus ${u.username}?",
-                                                            style:
-                                                                GoogleFonts.poppins(),
-                                                          ),
-                                                          actions: [
-                                                            TextButton(
-                                                              onPressed: () =>
-                                                                  Navigator.pop(
-                                                                context,
-                                                              ),
-                                                              child: Text(
-                                                                "Batal",
-                                                                style: GoogleFonts.poppins(
-                                                                  color: Colors
-                                                                      .grey[700],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            ElevatedButton(
-                                                              style: ElevatedButton.styleFrom(
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .red, 
-                                                                foregroundColor:
-                                                                    Colors
-                                                                        .white, 
-                                                                padding:
-                                                                    const EdgeInsets.symmetric(
-                                                                  horizontal:
-                                                                      16,
-                                                                  vertical:
-                                                                      12,
-                                                                ),
-                                                                shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius.circular(
-                                                                    10,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              onPressed: () async {
-                                                                await service
-                                                                    .deleteUser(
-                                                                  u.id,
-                                                                );
-                                                                if (!mounted)
-                                                                  return;
-
-                                                                Navigator.pop(
-                                                                  context,
-                                                                );
-                                                                loadUsers();
-
-                                                                showCustomDialog(
-                                                                  title:
-                                                                      "Berhasil",
-                                                                  message:
-                                                                      "User berhasil dihapus",
-                                                                  icon: Icons
-                                                                      .check_circle,
-                                                                  color:
-                                                                      accentColor,
-                                                                );
-                                                              },
-                                                              child: Text(
-                                                                "Hapus",
-                                                                style: GoogleFonts.poppins(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
+                                                    ),
+                                                  ),
+                                                  ElevatedButton(
+                                                    style:
+                                                        ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                          foregroundColor:
+                                                              Colors.white,
                                                         ),
+                                                    onPressed: () async {
+                                                      await service.deleteUser(
+                                                        u.id,
+                                                      );
+
+                                                      if (!mounted) return;
+
+                                                      Navigator.pop(context);
+
+                                                      loadUsers();
+
+                                                      showCustomDialog(
+                                                        title: "Berhasil",
+                                                        message:
+                                                            "User berhasil dihapus",
+                                                        icon:
+                                                            Icons.check_circle,
+                                                        color: accentColor,
                                                       );
                                                     },
-                                            ),
-                                          );
-                                        },
+                                                    child: Text(
+                                                      "Hapus",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: Colors.white,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       ),
                                     ],
                                   ),

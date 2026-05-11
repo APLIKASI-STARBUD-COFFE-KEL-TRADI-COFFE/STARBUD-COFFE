@@ -9,7 +9,7 @@ class CategoryModel {
     return CategoryModel(
       id: json['id'],
       name: json['name'],
-      isActive: json['is_active'] ?? true, // 🔥 INI PENTING
+      isActive: json['is_active'] ?? true, 
     );
   }
 }

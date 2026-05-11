@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:starbud_coffe/services/stock_service.dart';
 import 'package:starbud_coffe/models/stock_model.dart';
@@ -27,6 +28,12 @@ class _StockPageState extends State<StockPage> {
   void initState() {
     super.initState();
     load();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 
   Future<void> load() async {
@@ -110,76 +117,87 @@ class _StockPageState extends State<StockPage> {
                 ),
               ),
 
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    controller: quantityController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: "Jumlah Stok Sekarang",
-                      errorText: isSubmitted
-                          ? quantityController.text.isEmpty
-                                ? "Wajib diisi"
-                                : int.tryParse(quantityController.text) == null
-                                ? "Harus angka"
-                                : int.parse(quantityController.text) < 0
-                                ? "Tidak boleh negatif"
-                                : null
-                          : null,
-                    ),
-                  ),
-
-                  const SizedBox(height: 15),
-
-                  TextField(
-                    controller: minStockController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: "Batas Minimal Stok",
-                      errorText: isSubmitted
-                          ? minStockController.text.isEmpty
-                                ? "Wajib diisi"
-                                : int.tryParse(minStockController.text) == null
-                                ? "Harus angka"
-                                : int.parse(minStockController.text) < 0
-                                ? "Tidak boleh negatif"
-                                : null
-                          : null,
-                    ),
-                  ),
-
-                  const SizedBox(height: 15),
-
-                  DropdownButtonFormField<String>(
-                    value: selectedUnit,
-                    hint: const Text("Pilih satuan"),
-                    decoration: InputDecoration(
-                      labelText: "Satuan",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: quantityController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      decoration: InputDecoration(
+                        labelText: "Jumlah Stok Sekarang",
+                        errorText: isSubmitted
+                            ? quantityController.text.isEmpty
+                                  ? "Wajib diisi"
+                                  : int.tryParse(quantityController.text) ==
+                                        null
+                                  ? "Harus angka"
+                                  : int.parse(quantityController.text) < 0
+                                  ? "Tidak boleh negatif"
+                                  : null
+                            : null,
                       ),
-                      errorText: isSubmitted && selectedUnit == null
-                          ? "Wajib diisi"
-                          : null,
                     ),
-                    items: ["pcs", "gram", "ml", "liter", "kg", "botol", "pack"]
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                        .toList(),
-                    onChanged: (val) {
-                      setStateDialog(() {
-                        selectedUnit = val;
-                      });
-                    },
-                  ),
-                ],
+
+                    const SizedBox(height: 15),
+
+                    TextField(
+                      controller: minStockController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      decoration: InputDecoration(
+                        labelText: "Batas Minimal Stok",
+                        errorText: isSubmitted
+                            ? minStockController.text.isEmpty
+                                  ? "Wajib diisi"
+                                  : int.tryParse(minStockController.text) ==
+                                        null
+                                  ? "Harus angka"
+                                  : int.parse(minStockController.text) < 0
+                                  ? "Tidak boleh negatif"
+                                  : null
+                            : null,
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    DropdownButtonFormField<String>(
+                      value: selectedUnit,
+                      hint: const Text("Pilih satuan"),
+                      decoration: InputDecoration(
+                        labelText: "Satuan",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        errorText: isSubmitted && selectedUnit == null
+                            ? "Wajib diisi"
+                            : null,
+                      ),
+                      items:
+                          ["pcs", "gram", "ml", "liter", "kg", "botol", "pack"]
+                              .map(
+                                (e) =>
+                                    DropdownMenuItem(value: e, child: Text(e)),
+                              )
+                              .toList(),
+                      onChanged: (val) {
+                        setStateDialog(() {
+                          selectedUnit = val;
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
 
               actions: [
                 TextButton(
                   onPressed: () {
                     if (quantityController.text == stock.quantity.toString() &&
-                        minStockController.text == stock.minStock.toString()) {
+                        minStockController.text == stock.minStock.toString() &&
+                        selectedUnit == stock.unit) {
                       Navigator.pop(context);
                     } else {
                       showDialog(
@@ -334,90 +352,98 @@ class _StockPageState extends State<StockPage> {
                 ),
               ),
 
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    controller: nameController,
-                    style: GoogleFonts.poppins(fontSize: 14),
-                    decoration: InputDecoration(
-                      labelText: "Nama Barang",
-                      errorText: isSubmitted && nameController.text.isEmpty
-                          ? "Wajib diisi"
-                          : null,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: nameController,
+                      style: GoogleFonts.poppins(fontSize: 14),
+                      decoration: InputDecoration(
+                        labelText: "Nama Barang",
+                        errorText: isSubmitted && nameController.text.isEmpty
+                            ? "Wajib diisi"
+                            : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 12),
+                    const SizedBox(height: 12),
 
-                  TextField(
-                    controller: qtyController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: "Jumlah Stok",
-                      errorText: isSubmitted
-                          ? qtyController.text.isEmpty
-                                ? "Wajib diisi"
-                                : int.tryParse(qtyController.text) == null
-                                ? "Harus angka"
-                                : int.parse(qtyController.text) < 0
-                                ? "Tidak boleh negatif"
-                                : null
-                          : null,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    TextField(
+                      controller: qtyController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      decoration: InputDecoration(
+                        labelText: "Jumlah Stok",
+                        errorText: isSubmitted
+                            ? qtyController.text.isEmpty
+                                  ? "Wajib diisi"
+                                  : int.tryParse(qtyController.text) == null
+                                  ? "Harus angka"
+                                  : int.parse(qtyController.text) < 0
+                                  ? "Tidak boleh negatif"
+                                  : null
+                            : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
+                    const SizedBox(height: 12),
 
-                  TextField(
-                    controller: minController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: "Minimal Stok",
-                      errorText: isSubmitted
-                          ? minController.text.isEmpty
-                                ? "Wajib diisi"
-                                : int.tryParse(minController.text) == null
-                                ? "Harus angka"
-                                : int.parse(minController.text) < 0
-                                ? "Tidak boleh negatif"
-                                : null
-                          : null,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    TextField(
+                      controller: minController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      decoration: InputDecoration(
+                        labelText: "Minimal Stok",
+                        errorText: isSubmitted
+                            ? minController.text.isEmpty
+                                  ? "Wajib diisi"
+                                  : int.tryParse(minController.text) == null
+                                  ? "Harus angka"
+                                  : int.parse(minController.text) < 0
+                                  ? "Tidak boleh negatif"
+                                  : null
+                            : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 12),
+                    const SizedBox(height: 12),
 
-                  DropdownButtonFormField<String>(
-                    value: selectedUnit,
-                    hint: const Text("Pilih satuan"),
-                    decoration: InputDecoration(
-                      labelText: "Satuan",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    DropdownButtonFormField<String>(
+                      value: selectedUnit,
+                      hint: const Text("Pilih satuan"),
+                      decoration: InputDecoration(
+                        labelText: "Satuan",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        errorText: isSubmitted && selectedUnit == null
+                            ? "Wajib diisi"
+                            : null,
                       ),
-                      errorText: isSubmitted && selectedUnit == null
-                          ? "Wajib diisi"
-                          : null,
+                      items:
+                          ["pcs", "gram", "ml", "liter", "kg", "botol", "pack"]
+                              .map(
+                                (e) =>
+                                    DropdownMenuItem(value: e, child: Text(e)),
+                              )
+                              .toList(),
+                      onChanged: (val) {
+                        setStateDialog(() {
+                          selectedUnit = val;
+                        });
+                      },
                     ),
-                    items: ["pcs", "gram", "ml", "liter", "kg", "botol", "pack"]
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                        .toList(),
-                    onChanged: (val) {
-                      setStateDialog(() {
-                        selectedUnit = val;
-                      });
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               actions: [
@@ -470,6 +496,26 @@ class _StockPageState extends State<StockPage> {
                     if (selectedUnit == null) return;
 
                     final name = nameController.text.trim();
+
+                    if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(name)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            "Nama stok tidak boleh mengandung simbol",
+                          ),
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (RegExp(r'^[0-9]+$').hasMatch(name)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Nama stok tidak boleh hanya angka"),
+                        ),
+                      );
+                      return;
+                    }
 
                     final isExist = allStocks.any(
                       (s) => s.name.toLowerCase().trim() == name.toLowerCase(),
@@ -583,50 +629,65 @@ class _StockPageState extends State<StockPage> {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 15),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: searchController,
-                      onChanged: _runFilter,
-                      decoration: InputDecoration(
-                        hintText: "Cari stok barang...",
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: searchController.text.isNotEmpty
-                            ? IconButton(
-                                icon: const Icon(Icons.close),
-                                onPressed: () {
-                                  searchController.clear();
-                                  _runFilter("");
-                                },
-                              )
-                            : null,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final isNarrow = constraints.maxWidth < 600;
+                  return Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    alignment: WrapAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: isNarrow
+                            ? constraints.maxWidth
+                            : constraints.maxWidth - 200,
+                        child: TextField(
+                          controller: searchController,
+                          onChanged: _runFilter,
+                          decoration: InputDecoration(
+                            hintText: "Cari stok barang...",
+                            prefixIcon: const Icon(Icons.search),
+                            suffixIcon: searchController.text.isNotEmpty
+                                ? IconButton(
+                                    icon: const Icon(Icons.close),
+                                    onPressed: () {
+                                      searchController.clear();
+                                      _runFilter("");
+                                    },
+                                  )
+                                : null,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      showAddStockDialog();
-                    },
-                    icon: const Icon(Icons.add, color: Colors.white),
-                    label: Text(
-                      "Tambah Stok",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                      SizedBox(
+                        width: isNarrow ? constraints.maxWidth : null,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            showAddStockDialog();
+                          },
+                          icon: const Icon(Icons.add, color: Colors.white),
+                          label: Text(
+                            "Tambah Stok",
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: accentColor,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 14,
+                              horizontal: 20,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: accentColor,
-                    ),
-                  ),
-                ],
+                    ],
+                  );
+                },
               ),
             ),
 

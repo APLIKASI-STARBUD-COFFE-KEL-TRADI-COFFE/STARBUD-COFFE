@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -51,10 +52,39 @@ class _MenuPageState extends State<MenuPage> {
     });
   }
 
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   Map<String, bool> recipeMap = {};
   bool isLoadingRecipe = true;
 
   bool isRecipeLoaded = false;
+
+  InputDecoration modernInput({
+    required String label,
+    String? error,
+    Widget? prefix,
+  }) {
+    return InputDecoration(
+      labelText: label,
+      errorText: error,
+      prefixIcon: prefix,
+      filled: true,
+      fillColor: const Color(0xFFF8F5F2),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(18),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(18),
+        borderSide: const BorderSide(color: Color(0xFFAF7705), width: 1.5),
+      ),
+    );
+  }
 
   void loadCategories() async {
     final data = await CategoryService().getCategories();
@@ -92,6 +122,7 @@ class _MenuPageState extends State<MenuPage> {
 
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         String? nameError;
         String? priceError;
@@ -340,9 +371,11 @@ class _MenuPageState extends State<MenuPage> {
                               ),
                             ],
                           ),
-                          content: Text(
-                            "Perubahan tidak disimpan, yakin mau keluar?",
-                            style: GoogleFonts.poppins(),
+                          content: SingleChildScrollView(
+                            child: Text(
+                              "Perubahan tidak disimpan, yakin mau keluar?",
+                              style: GoogleFonts.poppins(),
+                            ),
                           ),
                           actions: [
                             TextButton(
@@ -398,12 +431,30 @@ class _MenuPageState extends State<MenuPage> {
                                     nameController.text.toLowerCase().trim() &&
                                 m.id != menu?.id,
                           );
+                          final cleanName = nameController.text.trim();
 
-                          if (existing) {
+                          if (cleanName.isEmpty) {
+                            nameError = "Nama menu wajib diisi";
+                            isValid = false;
+                          } else if (cleanName.length < 3) {
+                            nameError = "Minimal 3 karakter";
+                            isValid = false;
+                          } else if (!RegExp(
+                            r'^[a-zA-Z0-9\s]+$',
+                          ).hasMatch(cleanName)) {
+                            nameError =
+                                "Nama menu tidak boleh mengandung simbol";
+                            isValid = false;
+                          } else if (RegExp(r'^[0-9]+$').hasMatch(cleanName)) {
+                            nameError = "Nama menu tidak boleh hanya angka";
+                            isValid = false;
+                          } else if (cleanName.length > 30) {
+                            nameError = "Maksimal 30 karakter";
+                            isValid = false;
+                          } else if (existing) {
                             nameError = "Nama menu sudah digunakan";
                             isValid = false;
                           }
-
                           String cleanPrice = priceController.text
                               .replaceAll('.', '')
                               .trim();
@@ -443,7 +494,9 @@ class _MenuPageState extends State<MenuPage> {
                           }
 
                           if (!isValid) {
-                            setStateDialog(() {});
+                            setStateDialog(() {
+                              isSaving = false;
+                            });
                             return;
                           }
 
@@ -462,11 +515,28 @@ class _MenuPageState extends State<MenuPage> {
                               imageUrl != initialImage;
 
                           if (menu != null && !isChanged) {
+                            setStateDialog(() {
+                              isSaving = false;
+                            });
+
                             showNiceDialog(
                               title: "Tidak ada perubahan",
                               message: "Data tidak mengalami perubahan",
                               icon: Icons.info,
                               color: Colors.orange,
+                            );
+                            return;
+                          }
+                          if (imageUrl == null || imageUrl!.isEmpty) {
+                            setStateDialog(() {
+                              isSaving = false;
+                            });
+
+                            showNiceDialog(
+                              title: "Gagal",
+                              message: "Gambar menu wajib diupload",
+                              icon: Icons.image_not_supported,
+                              color: Colors.red,
                             );
                             return;
                           }
@@ -564,6 +634,7 @@ class _MenuPageState extends State<MenuPage> {
 
     await showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (_) {
         return StatefulBuilder(
           builder: (context, setStateDialog) {
@@ -688,6 +759,8 @@ class _MenuPageState extends State<MenuPage> {
                                     ),
                                     onPressed: () {
                                       setStateDialog(() {
+                                        item["qtyController"].dispose();
+
                                         selectedItems.removeAt(index);
                                       });
                                     },
@@ -856,6 +929,7 @@ class _MenuPageState extends State<MenuPage> {
 
     await showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (_) {
         return StatefulBuilder(
           builder: (context, setStateDialog) {
@@ -870,31 +944,36 @@ class _MenuPageState extends State<MenuPage> {
                   ),
                 ],
               ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    controller: qtyController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: "Quantity"),
-                  ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: qtyController,
+                      keyboardType: TextInputType.number,
 
-                  const SizedBox(height: 10),
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
 
-                  SwitchListTile(
-                    value: isOptional,
-                    title: Text(
-                      isOptional
-                          ? "Optional (customer bisa pilih)"
-                          : "Wajib (selalu digunakan)",
+                      decoration: const InputDecoration(labelText: "Quantity"),
                     ),
-                    onChanged: (val) {
-                      setStateDialog(() {
-                        isOptional = val;
-                      });
-                    },
-                  ),
-                ],
+
+                    const SizedBox(height: 10),
+
+                    SwitchListTile(
+                      value: isOptional,
+                      title: Text(
+                        isOptional
+                            ? "Optional (customer bisa pilih)"
+                            : "Wajib (selalu digunakan)",
+                      ),
+                      onChanged: (val) {
+                        setStateDialog(() {
+                          isOptional = val;
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
               actions: [
                 TextButton(
@@ -929,9 +1008,11 @@ class _MenuPageState extends State<MenuPage> {
                             ),
                           ],
                         ),
-                        content: Text(
-                          "Perubahan tidak disimpan, yakin mau keluar?",
-                          style: GoogleFonts.poppins(),
+                        content: SingleChildScrollView(
+                          child: Text(
+                            "Perubahan tidak disimpan, yakin mau keluar?",
+                            style: GoogleFonts.poppins(),
+                          ),
                         ),
                         actions: [
                           TextButton(
@@ -1027,7 +1108,19 @@ class _MenuPageState extends State<MenuPage> {
     );
   }
 
-  void _confirmDeleteMenu(MenuModel m) {
+  void _confirmDeleteMenu(MenuModel m) async {
+    final isUsed = await service.isMenuUsed(m.id);
+
+    if (isUsed) {
+      showNiceDialog(
+        title: "Menu Tidak Bisa Dihapus",
+        message: "Menu '${m.name}' sudah pernah digunakan dalam transaksi.",
+        icon: Icons.lock_outline,
+        color: Colors.grey,
+      );
+      return;
+    }
+
     showDialog(
       context: context,
       builder: (_) {
@@ -1038,7 +1131,7 @@ class _MenuPageState extends State<MenuPage> {
 
           title: Row(
             children: [
-              Icon(Icons.delete_forever, color: Colors.red),
+              const Icon(Icons.delete_forever, color: Colors.red),
               const SizedBox(width: 8),
               Text(
                 "Hapus Menu",
@@ -1047,9 +1140,11 @@ class _MenuPageState extends State<MenuPage> {
             ],
           ),
 
-          content: Text(
-            "Menu '${m.name}' akan dihapus.\nAksi ini tidak bisa dibatalkan",
-            style: GoogleFonts.poppins(height: 1.5),
+          content: SingleChildScrollView(
+            child: Text(
+              "Menu '${m.name}' akan dihapus.\nAksi ini tidak bisa dibatalkan",
+              style: GoogleFonts.poppins(height: 1.5),
+            ),
           ),
 
           actions: [
@@ -1065,19 +1160,33 @@ class _MenuPageState extends State<MenuPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
+
               icon: const Icon(Icons.delete),
+
               label: Text("Hapus", style: GoogleFonts.poppins()),
+
               onPressed: () async {
-                await service.deleteMenu(m.id);
+                try {
+                  await service.deleteMenu(m.id);
 
-                Navigator.pop(context);
+                  if (mounted) Navigator.pop(context);
 
-                showNiceDialog(
-                  title: "Berhasil",
-                  message: "Menu '${m.name}' berhasil dihapus",
-                  icon: Icons.check_circle,
-                  color: Colors.green,
-                );
+                  showNiceDialog(
+                    title: "Berhasil",
+                    message: "Menu '${m.name}' berhasil dihapus",
+                    icon: Icons.check_circle,
+                    color: Colors.green,
+                  );
+                } catch (e) {
+                  if (mounted) Navigator.pop(context);
+
+                  showNiceDialog(
+                    title: "Gagal",
+                    message: e.toString().replaceAll("Exception: ", ""),
+                    icon: Icons.error,
+                    color: Colors.red,
+                  );
+                }
               },
             ),
           ],
@@ -1278,9 +1387,11 @@ class _MenuPageState extends State<MenuPage> {
                                         ),
                                       ],
                                     ),
-                                    content: Text(
-                                      "Bahan '${r['stocks']['name']}' akan dihapus",
-                                      style: GoogleFonts.poppins(),
+                                    content: SingleChildScrollView(
+                                      child: Text(
+                                        "Bahan '${r['stocks']['name']}' akan dihapus",
+                                        style: GoogleFonts.poppins(),
+                                      ),
                                     ),
                                     actions: [
                                       TextButton(
@@ -1307,6 +1418,17 @@ class _MenuPageState extends State<MenuPage> {
                                 );
 
                                 if (confirm != true) return;
+
+                                if (recipes.length == 1) {
+                                  showNiceDialog(
+                                    title: "Tidak Bisa",
+                                    message:
+                                        "Minimal menu harus memiliki 1 bahan",
+                                    icon: Icons.warning,
+                                    color: Colors.orange,
+                                  );
+                                  return;
+                                }
 
                                 await Supabase.instance.client
                                     .from('recipes')
@@ -1389,7 +1511,9 @@ class _MenuPageState extends State<MenuPage> {
               ),
             ],
           ),
-          content: Text(message, style: GoogleFonts.poppins()),
+          content: SingleChildScrollView(
+            child: Text(message, style: GoogleFonts.poppins()),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -1552,8 +1676,8 @@ class _MenuPageState extends State<MenuPage> {
                     const SizedBox(width: 6),
                     _actionIcon(
                       icon: Icons.delete,
-                      color: hasRecipe ? Colors.grey : iconDeleteColor,
-                      onTap: hasRecipe ? null : () => _confirmDeleteMenu(m),
+                      color: iconDeleteColor,
+                      onTap: () => _confirmDeleteMenu(m),
                     ),
                   ],
                 ),
@@ -1587,66 +1711,77 @@ class _MenuPageState extends State<MenuPage> {
                         child: Switch(
                           value: m.status,
                           activeColor: switchActiveColor,
-                          onChanged: hasRecipe
-                              ? (val) async {
-                                  if (!val) {
-                                    final confirm = await showDialog(
-                                      context: context,
-                                      builder: (_) => AlertDialog(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            18,
-                                          ),
-                                        ),
-                                        title: Text(
-                                          "Nonaktifkan Menu",
-                                          style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        content: Text(
-                                          "Menu '${m.name}' akan dinonaktifkan.",
-                                          style: GoogleFonts.poppins(),
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context, false),
-                                            child: Text(
-                                              "Batal",
-                                              style: GoogleFonts.poppins(),
-                                            ),
-                                          ),
-                                          ElevatedButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context, true),
-                                            child: Text(
-                                              "Nonaktifkan",
-                                              style: GoogleFonts.poppins(),
-                                            ),
-                                          ),
-                                        ],
+                          onChanged: (val) async {
+                            if (!hasRecipe) {
+                              showNiceDialog(
+                                title: "Resep Belum Ada",
+                                message: "Tambahkan resep terlebih dahulu.",
+                                icon: Icons.info_outline,
+                                color: Colors.orange,
+                              );
+                              showRecipeDetail(m);
+                              return;
+                            }
+
+                            if (!val) {
+                              final confirm = await showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  title: Text(
+                                    "Nonaktifkan Menu",
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  content: Text(
+                                    "Menu '${m.name}' akan dinonaktifkan.",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, false),
+                                      child: Text(
+                                        "Batal",
+                                        style: GoogleFonts.poppins(),
                                       ),
-                                    );
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, true),
+                                      child: Text(
+                                        "Nonaktifkan",
+                                        style: GoogleFonts.poppins(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
 
-                                    if (confirm != true) return;
-                                  }
+                              if (confirm != true) return;
+                            }
 
-                                  await service.updateStatus(m.id, val);
+                            await service.updateStatus(m.id, val);
 
-                                  setState(() {
-                                    _menuFuture = service.getMenus();
-                                  });
-                                  showNiceDialog(
-                                    title: "Berhasil",
-                                    message: val
-                                        ? "Menu berhasil diaktifkan"
-                                        : "Menu berhasil dinonaktifkan",
-                                    icon: Icons.check_circle,
-                                    color: Colors.green,
-                                  );
-                                }
-                              : null,
+                            setState(() {
+                              _menuFuture = service.getMenus();
+                            });
+
+                            if (!val) {
+                              Navigator.pop(context);
+                            }
+                            showNiceDialog(
+                              title: "Berhasil",
+                              message: val
+                                  ? "Menu berhasil diaktifkan"
+                                  : "Menu berhasil dinonaktifkan",
+                              icon: Icons.check_circle,
+                              color: Colors.green,
+                            );
+                          },
                         ),
                       ),
                     ],
@@ -1706,7 +1841,17 @@ class _MenuPageState extends State<MenuPage> {
 
                   Center(
                     child: GestureDetector(
-                      onTap: hasRecipe ? () => showRecipeDetail(m) : null,
+                      onTap: () async {
+                        if (hasRecipe) {
+                          showRecipeDetail(m);
+                        } else {
+                          await showAddRecipeDialog(m.id);
+
+                          setState(() {
+                            _menuFuture = service.getMenus();
+                          });
+                        }
+                      },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10,
@@ -1858,66 +2003,79 @@ class _MenuPageState extends State<MenuPage> {
 
               const SizedBox(height: 15),
 
-              Row(
-                children: [
-                  Expanded(
-                    child: DropdownButtonFormField<String>(
-                      value: selectedStatus,
-                      decoration: InputDecoration(
-                        labelText: "Status Menu",
-                        labelStyle: GoogleFonts.poppins(),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      items: ["Semua", "Aktif", "Nonaktif"]
-                          .map(
-                            (e) => DropdownMenuItem(
-                              value: e,
-                              child: Text(e, style: GoogleFonts.poppins()),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isNarrow = constraints.maxWidth < 600;
+                  return Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      SizedBox(
+                        width: isNarrow
+                            ? constraints.maxWidth
+                            : (constraints.maxWidth / 2) - 10,
+                        child: DropdownButtonFormField<String>(
+                          value: selectedStatus,
+                          decoration: InputDecoration(
+                            labelText: "Status Menu",
+                            labelStyle: GoogleFonts.poppins(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedStatus = value!;
-                        });
-                      },
-                    ),
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: DropdownButtonFormField<String>(
-                      value: selectedCategory,
-                      decoration: InputDecoration(
-                        labelText: "Kategori",
-                        labelStyle: GoogleFonts.poppins(),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          ),
+                          items: ["Semua", "Aktif", "Nonaktif"]
+                              .map(
+                                (e) => DropdownMenuItem(
+                                  value: e,
+                                  child: Text(e, style: GoogleFonts.poppins()),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              selectedStatus = value!;
+                            });
+                          },
                         ),
                       ),
-                      items: [
-                        const DropdownMenuItem(
-                          value: "Semua",
-                          child: Text("Semua"),
-                        ),
-                        ...categories.map(
-                          (c) => DropdownMenuItem(
-                            value: c.name,
-                            child: Text(c.name, style: GoogleFonts.poppins()),
+                      SizedBox(
+                        width: isNarrow
+                            ? constraints.maxWidth
+                            : (constraints.maxWidth / 2) - 10,
+                        child: DropdownButtonFormField<String>(
+                          value: selectedCategory,
+                          decoration: InputDecoration(
+                            labelText: "Kategori",
+                            labelStyle: GoogleFonts.poppins(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
+                          items: [
+                            const DropdownMenuItem(
+                              value: "Semua",
+                              child: Text("Semua"),
+                            ),
+                            ...categories.map(
+                              (c) => DropdownMenuItem(
+                                value: c.name,
+                                child: Text(
+                                  c.name,
+                                  style: GoogleFonts.poppins(),
+                                ),
+                              ),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              selectedCategory = value!;
+                            });
+                          },
                         ),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          selectedCategory = value!;
-                        });
-                      },
-                    ),
-                  ),
-                ],
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),

@@ -39,7 +39,12 @@ class _LaporanPageState extends State<LaporanPage> {
   }
 
   Future<List<Map<String, dynamic>>> _getAllTransactions() async {
-    final startIso = _selectedDateRange!.start.toIso8601String();
+    final startIso = DateTime(
+      _selectedDateRange!.start.year,
+      _selectedDateRange!.start.month,
+      _selectedDateRange!.start.day,
+    ).toUtc().toIso8601String();
+
     final endIso = DateTime(
       _selectedDateRange!.end.year,
       _selectedDateRange!.end.month,
@@ -47,7 +52,8 @@ class _LaporanPageState extends State<LaporanPage> {
       23,
       59,
       59,
-    ).toIso8601String();
+      999,
+    ).toUtc().toIso8601String();
 
     final responses = await Future.wait([
       Supabase.instance.client
@@ -97,7 +103,7 @@ class _LaporanPageState extends State<LaporanPage> {
     combinedList.sort(
       (a, b) => DateTime.parse(
         b['created_at'],
-      ).compareTo(DateTime.parse(a['created_at'])),
+      ).toLocal().compareTo(DateTime.parse(a['created_at']).toLocal()),
     );
     _currentTransactions = combinedList;
     _totalIncome = tempIncome;
@@ -119,12 +125,114 @@ class _LaporanPageState extends State<LaporanPage> {
     setState(() {});
   }
 
-  Future<void> _pickDateRange() async {
-    final DateTimeRange? newRange = await showDateRangePicker(
+  void _showDateFilterOptions() {
+    showModalBottomSheet(
       context: context,
-      initialDateRange: _selectedDateRange,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Pilih Rentang Laporan",
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 20),
+              _buildDateOptionTile(Icons.today, "Hari Ini", Colors.blue, () {
+                final now = DateTime.now();
+                setState(
+                  () =>
+                      _selectedDateRange = DateTimeRange(start: now, end: now),
+                );
+                Navigator.pop(context);
+              }),
+              _buildDateOptionTile(
+                Icons.date_range,
+                "Minggu Ini",
+                Colors.green,
+                () {
+                  final now = DateTime.now();
+                  final start = now.subtract(Duration(days: now.weekday - 1));
+                  setState(
+                    () => _selectedDateRange = DateTimeRange(
+                      start: start,
+                      end: now,
+                    ),
+                  );
+                  Navigator.pop(context);
+                },
+              ),
+              _buildDateOptionTile(
+                Icons.calendar_month,
+                "Bulan Ini",
+                Colors.orange,
+                () {
+                  final now = DateTime.now();
+                  final start = DateTime(now.year, now.month, 1);
+                  setState(
+                    () => _selectedDateRange = DateTimeRange(
+                      start: start,
+                      end: now,
+                    ),
+                  );
+                  Navigator.pop(context);
+                },
+              ),
+              const Divider(height: 20),
+              _buildDateOptionTile(
+                Icons.edit_calendar,
+                "Pilih Manual (Rentang Bebas)...",
+                accentColor,
+                () {
+                  Navigator.pop(context);
+                  _pickDateRangeCustom();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDateOptionTile(
+    IconData icon,
+    String title,
+    Color color,
+    VoidCallback onTap,
+  ) {
+    return ListTile(
+      leading: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(icon, color: color, size: 20),
+      ),
+      title: Text(
+        title,
+        style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500),
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      onTap: onTap,
+    );
+  }
+
+  Future<void> _pickDateRangeCustom() async {
+    final DateTime? pickedStart = await showDatePicker(
+      context: context,
+      initialDate: _selectedDateRange?.start ?? DateTime.now(),
       firstDate: DateTime(2020),
-      lastDate: DateTime.now().add(const Duration(days: 1)),
+      lastDate: DateTime.now(),
+      helpText: "Pilih Tanggal Mulai",
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -139,10 +247,43 @@ class _LaporanPageState extends State<LaporanPage> {
       },
     );
 
-    if (newRange != null) {
-      setState(() {
-        _selectedDateRange = newRange;
-      });
+    if (pickedStart != null) {
+      final DateTime? pickedEnd = await showDatePicker(
+        context: context,
+        initialDate: _selectedDateRange?.end ?? pickedStart,
+        firstDate: DateTime(2020),
+        lastDate: DateTime.now(),
+        helpText: "Pilih Tanggal Akhir",
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: ColorScheme.light(
+                primary: accentColor,
+                onPrimary: Colors.white,
+                onSurface: Colors.black,
+              ),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (pickedEnd != null) {
+        if (pickedEnd.isBefore(pickedStart)) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Tanggal akhir tidak boleh sebelum tanggal mulai"),
+            ),
+          );
+          return;
+        }
+        setState(() {
+          _selectedDateRange = DateTimeRange(
+            start: pickedStart,
+            end: pickedEnd,
+          );
+        });
+      }
     }
   }
 
@@ -158,22 +299,26 @@ class _LaporanPageState extends State<LaporanPage> {
             "Tambah Pengeluaran",
             style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  labelText: "Nama Pengeluaran",
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: "Nama Pengeluaran",
+                  ),
                 ),
-              ),
-              TextField(
-                controller: amountController,
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: const InputDecoration(labelText: "Jumlah Nominal"),
-              ),
-            ],
+                TextField(
+                  controller: amountController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: const InputDecoration(
+                    labelText: "Jumlah Nominal",
+                  ),
+                ),
+              ],
+            ),
           ),
           actions: [
             TextButton(
@@ -183,6 +328,26 @@ class _LaporanPageState extends State<LaporanPage> {
             ElevatedButton(
               onPressed: () async {
                 final name = nameController.text.trim();
+
+                if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(name)) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        "Nama pengeluaran tidak boleh mengandung simbol",
+                      ),
+                    ),
+                  );
+                  return;
+                }
+
+                if (RegExp(r'^[0-9]+$').hasMatch(name)) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Nama pengeluaran tidak boleh hanya angka"),
+                    ),
+                  );
+                  return;
+                }
                 final amount = int.tryParse(amountController.text) ?? 0;
                 if (name.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -223,7 +388,7 @@ class _LaporanPageState extends State<LaporanPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: InkWell(
-        onTap: _pickDateRange,
+        onTap: _showDateFilterOptions,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
@@ -296,10 +461,11 @@ class _LaporanPageState extends State<LaporanPage> {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isMobile = constraints.maxWidth < 600;
+
+                    final titleSection = Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -317,8 +483,10 @@ class _LaporanPageState extends State<LaporanPage> {
                           ),
                         ),
                       ],
-                    ),
-                    Row(
+                    );
+
+                    final actionSection = Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         GestureDetector(
                           onTap: () => _showAddExpenseDialog(),
@@ -365,8 +533,25 @@ class _LaporanPageState extends State<LaporanPage> {
                           ),
                         ),
                       ],
-                    ),
-                  ],
+                    );
+
+                    if (isMobile) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          titleSection,
+                          const SizedBox(height: 16),
+                          actionSection,
+                        ],
+                      );
+                    }
+
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [titleSection, actionSection],
+                    );
+                  },
                 ),
               ),
               _buildDateFilter(),
@@ -387,6 +572,14 @@ class _LaporanPageState extends State<LaporanPage> {
                   builder: (context) {
                     if (snapshot.connectionState == ConnectionState.waiting)
                       return const Center(child: CircularProgressIndicator());
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          "Terjadi kesalahan memuat laporan",
+                          style: GoogleFonts.poppins(),
+                        ),
+                      );
+                    }
                     if (!snapshot.hasData || snapshot.data!.isEmpty)
                       return const Center(
                         child: Text("Belum ada data transaksi"),
@@ -395,27 +588,53 @@ class _LaporanPageState extends State<LaporanPage> {
                     final transactions = snapshot.data!;
                     Map<String, List<Map<String, dynamic>>> groupedData = {};
 
-                    for (var tx in transactions) {
-                      String monthYear = DateFormat(
-                        'MMMM yyyy',
-                      ).format(DateTime.parse(tx['created_at']));
-                      if (groupedData[monthYear] == null)
-                        groupedData[monthYear] = [];
-                      groupedData[monthYear]!.add(tx);
+                    final start = DateTime(
+                      _selectedDateRange!.start.year,
+                      _selectedDateRange!.start.month,
+                      _selectedDateRange!.start.day,
+                    );
+                    final end = DateTime(
+                      _selectedDateRange!.end.year,
+                      _selectedDateRange!.end.month,
+                      _selectedDateRange!.end.day,
+                    );
+
+                    // Pre-fill all dates in the selected range
+                    for (int i = 0; i <= end.difference(start).inDays; i++) {
+                      final currentDay = start.add(Duration(days: i));
+                      String dateStr = DateFormat(
+                        'dd MMMM yyyy',
+                      ).format(currentDay);
+                      groupedData[dateStr] = [];
                     }
+
+                    for (var tx in transactions) {
+                      String dateStr = DateFormat(
+                        'dd MMMM yyyy',
+                      ).format(DateTime.parse(tx['created_at']).toLocal());
+                      if (groupedData[dateStr] == null) {
+                        groupedData[dateStr] = [];
+                      }
+                      groupedData[dateStr]!.add(tx);
+                    }
+
+                    final sortedKeys = groupedData.keys.toList()
+                      ..sort((a, b) {
+                        final dateA = DateFormat('dd MMMM yyyy').parse(a);
+                        final dateB = DateFormat('dd MMMM yyyy').parse(b);
+                        return dateB.compareTo(dateA);
+                      });
 
                     return ListView.builder(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 10,
                       ),
-                      itemCount: groupedData.keys.length,
+                      itemCount: sortedKeys.length,
                       itemBuilder: (context, sectionIndex) {
-                        String monthYear = groupedData.keys.elementAt(
-                          sectionIndex,
-                        );
+                        String dateStr = sortedKeys[sectionIndex];
                         List<Map<String, dynamic>> items =
-                            groupedData[monthYear]!;
+                            groupedData[dateStr]!;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -425,7 +644,7 @@ class _LaporanPageState extends State<LaporanPage> {
                                 horizontal: 4,
                               ),
                               child: Text(
-                                monthYear,
+                                dateStr,
                                 style: GoogleFonts.poppins(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -433,69 +652,86 @@ class _LaporanPageState extends State<LaporanPage> {
                                 ),
                               ),
                             ),
-                            ...items.map((item) {
-                              final date = DateTime.parse(
-                                item['created_at'],
-                              ).toLocal();
-                              final bool isExpense = item['type'] == 'expense';
-                              return Container(
-                                margin: const EdgeInsets.only(bottom: 12),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(16),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.03),
-                                      blurRadius: 10,
-                                      offset: const Offset(0, 4),
-                                    ),
-                                  ],
+                            if (items.isEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: 16,
+                                  left: 4,
                                 ),
-                                child: ListTile(
-                                  leading: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color:
-                                          (isExpense
-                                                  ? Colors.red
-                                                  : Colors.green)
-                                              .withOpacity(0.1),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      isExpense
-                                          ? Icons.arrow_outward
-                                          : Icons.arrow_downward,
-                                      color: isExpense
-                                          ? Colors.red
-                                          : Colors.green,
-                                      size: 20,
-                                    ),
-                                  ),
-                                  title: Text(
-                                    item['display_title'],
-                                    style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    DateFormat('dd MMM • HH:mm').format(date),
-                                    style: GoogleFonts.poppins(fontSize: 12),
-                                  ),
-                                  trailing: Text(
-                                    "${isExpense ? '-' : '+'} ${currencyFormatter.format(item['amount'])}",
-                                    style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.bold,
-                                      color: isExpense
-                                          ? Colors.red
-                                          : Colors.green,
-                                      fontSize: 15,
-                                    ),
+                                child: Text(
+                                  "Tidak ada transaksi",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 13,
+                                    color: Colors.grey,
+                                    fontStyle: FontStyle.italic,
                                   ),
                                 ),
-                              );
-                            }),
+                              )
+                            else
+                              ...items.map((item) {
+                                final date = DateTime.parse(
+                                  item['created_at'],
+                                ).toLocal();
+                                final bool isExpense =
+                                    item['type'] == 'expense';
+                                return Container(
+                                  margin: const EdgeInsets.only(bottom: 12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.03),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ListTile(
+                                    leading: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            (isExpense
+                                                    ? Colors.red
+                                                    : Colors.green)
+                                                .withOpacity(0.1),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        isExpense
+                                            ? Icons.arrow_outward
+                                            : Icons.arrow_downward,
+                                        color: isExpense
+                                            ? Colors.red
+                                            : Colors.green,
+                                        size: 20,
+                                      ),
+                                    ),
+                                    title: Text(
+                                      item['display_title'],
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      DateFormat('dd MMM • HH:mm').format(date),
+                                      style: GoogleFonts.poppins(fontSize: 12),
+                                    ),
+                                    trailing: Text(
+                                      "${isExpense ? '-' : '+'} ${currencyFormatter.format(item['amount'])}",
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.bold,
+                                        color: isExpense
+                                            ? Colors.red
+                                            : Colors.green,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
                           ],
                         );
                       },
@@ -595,7 +831,7 @@ class _LaporanPageState extends State<LaporanPage> {
                 (item) => [
                   DateFormat(
                     'dd/MM/yyyy HH:mm',
-                  ).format(DateTime.parse(item['created_at'])),
+                  ).format(DateTime.parse(item['created_at']).toLocal()),
                   item['display_title'],
                   item['type'] == 'income' ? 'Pemasukan' : 'Pengeluaran',
                   currencyFormatter.format(item['amount']),

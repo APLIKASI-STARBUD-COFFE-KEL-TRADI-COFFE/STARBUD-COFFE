@@ -217,7 +217,7 @@ class _TransaksiHistoryPageState extends State<TransaksiHistoryPage> {
                     onPressed: () async {
                       final picked = await showDatePicker(
                         context: context,
-                        initialDate: DateTime.now(),
+                        initialDate: selectedDate ?? DateTime.now(),
                         firstDate: DateTime(2023),
                         lastDate: DateTime.now(),
                       );
@@ -258,7 +258,7 @@ class _TransaksiHistoryPageState extends State<TransaksiHistoryPage> {
                   orders = orders
                       .where(
                         (o) => isSameDay(
-                          DateTime.parse(o['created_at']),
+                          DateTime.parse(o['created_at']).toLocal(),
                           selectedDate!,
                         ),
                       )

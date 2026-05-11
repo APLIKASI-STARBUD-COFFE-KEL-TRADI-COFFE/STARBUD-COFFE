@@ -30,8 +30,9 @@ class _DashboardPageState extends State<DashboardPage> {
   final bgColorLight = const Color(0xFFF8F9FA);
 
   String selectedFilter = "All Time";
-  DateTime? customStart;
-  DateTime? customEnd;
+  DateTime? customDate;
+
+  DateTimeRange? customRange;
 
   Stream<List<Map<String, dynamic>>> getOrdersStream() => Supabase
       .instance
@@ -55,7 +56,9 @@ class _DashboardPageState extends State<DashboardPage> {
     final now = DateTime.now();
 
     return orders.where((order) {
-      final date = DateTime.parse(order['created_at']);
+      final date = DateTime.parse(order['created_at']).toLocal();
+
+      final normalizedDate = DateTime(date.year, date.month, date.day);
 
       if (selectedFilter == "Hari Ini") {
         return date.year == now.year &&
@@ -64,19 +67,46 @@ class _DashboardPageState extends State<DashboardPage> {
       }
 
       if (selectedFilter == "Minggu Ini") {
-        final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
-        return date.isAfter(startOfWeek.subtract(const Duration(seconds: 1))) &&
-            date.isBefore(now.add(const Duration(seconds: 1)));
+        final startOfWeek = DateTime(
+          now.year,
+          now.month,
+          now.day,
+        ).subtract(Duration(days: now.weekday - 1));
+
+        final endOfWeek = startOfWeek.add(const Duration(days: 7));
+
+        return normalizedDate.isAtSameMomentAs(startOfWeek) ||
+            (normalizedDate.isAfter(startOfWeek) &&
+                normalizedDate.isBefore(endOfWeek));
       }
 
-      if (selectedFilter == "Custom") {
-        if (customStart == null || customEnd == null) return true;
-        return date.isAfter(
-              customStart!.subtract(const Duration(seconds: 1)),
-            ) &&
-            date.isBefore(customEnd!.add(const Duration(days: 1)));
+      if (selectedFilter == "Custom Hari") {
+        if (customDate == null) return true;
+
+        return normalizedDate.year == customDate!.year &&
+            normalizedDate.month == customDate!.month &&
+            normalizedDate.day == customDate!.day;
       }
 
+      if (selectedFilter == "Custom Range") {
+        if (customRange == null) return true;
+
+        final start = DateTime(
+          customRange!.start.year,
+          customRange!.start.month,
+          customRange!.start.day,
+        );
+
+        final end = DateTime(
+          customRange!.end.year,
+          customRange!.end.month,
+          customRange!.end.day,
+        );
+
+        return normalizedDate.isAtSameMomentAs(start) ||
+            normalizedDate.isAtSameMomentAs(end) ||
+            (normalizedDate.isAfter(start) && normalizedDate.isBefore(end));
+      }
       return true;
     }).toList();
   }
@@ -116,20 +146,18 @@ class _DashboardPageState extends State<DashboardPage> {
               foregroundColor: Colors.white,
             ),
             onPressed: () async {
-              Navigator.pop(context);
-
               try {
                 await Supabase.instance.client.auth.signOut();
               } catch (e) {
                 print("Logout error: $e");
               }
 
-              if (!mounted) return;
-
-              Navigator.of(
-                context,
-                rootNavigator: true,
-              ).pushNamedAndRemoveUntil('/welcome', (route) => false);
+              if (context.mounted) {
+                Navigator.of(
+                  context,
+                  rootNavigator: true,
+                ).pushNamedAndRemoveUntil('/welcome', (route) => false);
+              }
             },
             child: const Text("Keluar"),
           ),
@@ -310,18 +338,30 @@ class _DashboardPageState extends State<DashboardPage> {
               Color textColor = Colors.white;
 
               if (index == 0) {
-                gradientColors = [const Color(0xFFFFD700), const Color(0xFFB8860B)];
+                gradientColors = [
+                  const Color(0xFFFFD700),
+                  const Color(0xFFB8860B),
+                ];
               } else if (index == 1) {
-                gradientColors = [const Color(0xFFD1984D), const Color(0xFF8B4513)];
+                gradientColors = [
+                  const Color(0xFFD1984D),
+                  const Color(0xFF8B4513),
+                ];
               } else if (index == 2) {
-                gradientColors = [const Color(0xFF5D4037), const Color(0xFF2D1B15)];
+                gradientColors = [
+                  const Color(0xFF5D4037),
+                  const Color(0xFF2D1B15),
+                ];
               } else {
-                gradientColors = [const Color(0xFFF3EDE7), const Color(0xFFE6DED6)];
+                gradientColors = [
+                  const Color(0xFFF3EDE7),
+                  const Color(0xFFE6DED6),
+                ];
                 textColor = Colors.brown[800]!;
               }
 
               return Container(
-                width: 140, 
+                width: 140,
                 margin: const EdgeInsets.only(right: 15, bottom: 20),
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -559,42 +599,118 @@ class _DashboardPageState extends State<DashboardPage> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        items: ["Hari Ini", "Minggu Ini", "All Time", "Custom"]
-                            .map((e) {
+                        items:
+                            [
+                              "Hari Ini",
+                              "Minggu Ini",
+                              "All Time",
+                              "Custom Hari",
+                              "Custom Range",
+                            ].map((e) {
                               return DropdownMenuItem(
                                 value: e,
                                 child: Text(e, style: GoogleFonts.poppins()),
                               );
-                            })
-                            .toList(),
+                            }).toList(),
                         onChanged: (val) async {
                           setState(() {
                             selectedFilter = val!;
                           });
 
-                          if (val == "Custom") {
-                            final pickedStart = await showDatePicker(
+                          if (val == "Custom Hari") {
+                            final pickedDate = await showDatePicker(
                               context: context,
-                              initialDate: DateTime.now(),
+                              initialDate: customDate ?? DateTime.now(),
                               firstDate: DateTime(2020),
                               lastDate: DateTime.now(),
                             );
 
-                            final pickedEnd = await showDatePicker(
+                            if (pickedDate != null) {
+                              setState(() {
+                                customDate = pickedDate;
+                              });
+                            }
+                          }
+
+                          if (val == "Custom Range") {
+                            final pickedRange = await showDateRangePicker(
                               context: context,
-                              initialDate: DateTime.now(),
                               firstDate: DateTime(2020),
                               lastDate: DateTime.now(),
+                              initialDateRange: customRange,
                             );
 
-                            setState(() {
-                              customStart = pickedStart;
-                              customEnd = pickedEnd;
-                            });
+                            if (pickedRange != null) {
+                              setState(() {
+                                customRange = pickedRange;
+                              });
+                            }
                           }
                         },
                       ),
                     ),
+                    if (selectedFilter == "Custom Hari" ||
+                        selectedFilter == "Custom Range") ...[
+                      const SizedBox(width: 10),
+
+                      IconButton(
+                        onPressed: () async {
+                          if (selectedFilter == "Custom Hari") {
+                            final pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: customDate ?? DateTime.now(),
+                              firstDate: DateTime(2020),
+                              lastDate: DateTime.now(),
+                            );
+
+                            if (pickedDate != null) {
+                              setState(() {
+                                customDate = pickedDate;
+                              });
+                            }
+                          }
+
+                          if (selectedFilter == "Custom Range") {
+                            final pickedRange = await showDateRangePicker(
+                              context: context,
+                              firstDate: DateTime(2020),
+                              lastDate: DateTime.now(),
+                              initialDateRange: customRange,
+                            );
+
+                            if (pickedRange != null) {
+                              setState(() {
+                                customRange = pickedRange;
+                              });
+                            }
+                          }
+                        },
+                        icon: const Icon(Icons.date_range),
+                        style: IconButton.styleFrom(
+                          backgroundColor: const Color(
+                            0xFFAF7705,
+                          ).withOpacity(0.1),
+                          foregroundColor: const Color(0xFFAF7705),
+                        ),
+                      ),
+
+                      const SizedBox(width: 5),
+
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedFilter = "All Time";
+                            customDate = null;
+                            customRange = null;
+                          });
+                        },
+                        icon: const Icon(Icons.close),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.red.withOpacity(0.1),
+                          foregroundColor: Colors.red,
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -608,30 +724,102 @@ class _DashboardPageState extends State<DashboardPage> {
                         children: [
                           Row(
                             children: [
-                              Expanded(child: _statCard("Transaksi", "${orders.length}", Icons.receipt_long_rounded, const Color(0xFF6366F1))),
+                              Expanded(
+                                child: _statCard(
+                                  "Transaksi",
+                                  "${orders.length}",
+                                  Icons.receipt_long_rounded,
+                                  const Color(0xFF6366F1),
+                                ),
+                              ),
                               const SizedBox(width: 8),
-                              Expanded(child: _statCard("Omset", NumberFormat.compactSimpleCurrency(locale: 'id', decimalDigits: 0).format(orders.fold(0, (s, i) => s + (i['total'] as num).toInt())), Icons.account_balance_wallet_rounded, const Color(0xFF10B981))),
+                              Expanded(
+                                child: _statCard(
+                                  "Omset",
+                                  NumberFormat.compactSimpleCurrency(
+                                    locale: 'id',
+                                    decimalDigits: 0,
+                                  ).format(
+                                    orders.fold(
+                                      0,
+                                      (s, i) => s + (i['total'] as num).toInt(),
+                                    ),
+                                  ),
+                                  Icons.account_balance_wallet_rounded,
+                                  const Color(0xFF10B981),
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              Expanded(child: _statCard("Menu", "${menus.length}", Icons.restaurant_menu_rounded, const Color(0xFFF59E0B))),
+                              Expanded(
+                                child: _statCard(
+                                  "Menu",
+                                  "${menus.length}",
+                                  Icons.restaurant_menu_rounded,
+                                  const Color(0xFFF59E0B),
+                                ),
+                              ),
                               const SizedBox(width: 8),
-                              Expanded(child: _statCard("Terjual", "$totalSold", Icons.analytics_rounded, const Color(0xFFEC4899))),
+                              Expanded(
+                                child: _statCard(
+                                  "Terjual",
+                                  "$totalSold",
+                                  Icons.analytics_rounded,
+                                  const Color(0xFFEC4899),
+                                ),
+                              ),
                             ],
                           ),
                         ],
                       )
                     : Row(
                         children: [
-                          Expanded(child: _statCard("Transaksi", "${orders.length}", Icons.receipt_long_rounded, const Color(0xFF6366F1))),
+                          Expanded(
+                            child: _statCard(
+                              "Transaksi",
+                              "${orders.length}",
+                              Icons.receipt_long_rounded,
+                              const Color(0xFF6366F1),
+                            ),
+                          ),
                           const SizedBox(width: 8),
-                          Expanded(child: _statCard("Omset", NumberFormat.compactSimpleCurrency(locale: 'id', decimalDigits: 0).format(orders.fold(0, (s, i) => s + (i['total'] as num).toInt())), Icons.account_balance_wallet_rounded, const Color(0xFF10B981))),
+                          Expanded(
+                            child: _statCard(
+                              "Omset",
+                              NumberFormat.compactSimpleCurrency(
+                                locale: 'id',
+                                decimalDigits: 0,
+                              ).format(
+                                orders.fold(
+                                  0,
+                                  (s, i) => s + (i['total'] as num).toInt(),
+                                ),
+                              ),
+                              Icons.account_balance_wallet_rounded,
+                              const Color(0xFF10B981),
+                            ),
+                          ),
                           const SizedBox(width: 8),
-                          Expanded(child: _statCard("Menu", "${menus.length}", Icons.restaurant_menu_rounded, const Color(0xFFF59E0B))),
+                          Expanded(
+                            child: _statCard(
+                              "Menu",
+                              "${menus.length}",
+                              Icons.restaurant_menu_rounded,
+                              const Color(0xFFF59E0B),
+                            ),
+                          ),
                           const SizedBox(width: 8),
-                          Expanded(child: _statCard("Terjual", "$totalSold", Icons.analytics_rounded, const Color(0xFFEC4899))),
+                          Expanded(
+                            child: _statCard(
+                              "Terjual",
+                              "$totalSold",
+                              Icons.analytics_rounded,
+                              const Color(0xFFEC4899),
+                            ),
+                          ),
                         ],
                       ),
               ),
@@ -851,7 +1039,7 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ),
         const LaporanPage(),
-        const UserPage(), 
+        const UserPage(),
       ],
     ];
 

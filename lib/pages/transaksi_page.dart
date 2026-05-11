@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:starbud_coffe/models/menu_model.dart';
 import 'package:starbud_coffe/services/menu_service.dart';
 import 'package:starbud_coffe/services/order_service.dart';
@@ -26,6 +27,7 @@ class _TransaksiPageState extends State<TransaksiPage> {
   late Stream<List<CategoryModel>> categoryStream;
   String selectedCategoryId = "all";
   bool isLoading = false;
+  bool wasDesktop = false;
 
   List<MenuModel> initialMenus = [];
   bool isLoaded = false;
@@ -58,7 +60,7 @@ class _TransaksiPageState extends State<TransaksiPage> {
       double needPerItem = double.tryParse(item['quantity'].toString()) ?? 0;
 
       if (currentStock < (needPerItem * requestedQty)) {
-        _showErrorSnackBar("Stok ${stockData['name']} tidak mencukupi!");
+        showTopNotification("Stok ${stockData['name']} tidak mencukupi!");
         return false;
       }
     }
@@ -95,16 +97,15 @@ class _TransaksiPageState extends State<TransaksiPage> {
     });
   }
 
-  void _showErrorSnackBar(String message) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("❌ $message"),
-        backgroundColor: Colors.redAccent,
-        behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.all(20),
-      ),
-    );
+  void showTopNotification(String message) {
+    Flushbar(
+      message: "❌ $message",
+      duration: const Duration(seconds: 2),
+      margin: const EdgeInsets.all(16),
+      borderRadius: BorderRadius.circular(12),
+      flushbarPosition: FlushbarPosition.TOP,
+      backgroundColor: Colors.redAccent,
+    ).show(context);
   }
 
   void validateCartStock(List<MenuModel> menus) {
@@ -118,7 +119,7 @@ class _TransaksiPageState extends State<TransaksiPage> {
       final menu = menus[menuIndex];
 
       if (!menu.status) {
-        _showErrorSnackBar("${item['name']} sudah tidak tersedia");
+        showTopNotification("${item['name']} sudah tidak tersedia");
         setState(() => cart.removeAt(i));
         continue;
       }
@@ -374,14 +375,17 @@ class _TransaksiPageState extends State<TransaksiPage> {
                                   : () async {
                                       List<Map<String, dynamic>>
                                       selectedRecipe = recipeData
-                                          .where(
-                                            (r) => r['is_selected'] == true,
+                                          .map(
+                                            (e) => Map<String, dynamic>.from(e),
                                           )
                                           .toList();
-
                                       bool enough = await isStockSufficient(
                                         1,
-                                        selectedRecipe,
+                                        selectedRecipe
+                                            .where(
+                                              (r) => r['is_selected'] == true,
+                                            )
+                                            .toList(),
                                       );
 
                                       if (enough) {
@@ -421,18 +425,45 @@ class _TransaksiPageState extends State<TransaksiPage> {
   }
 
   void addToCart(MenuModel menu, List<Map<String, dynamic>> selectedRecipe) {
+    int existingIndex = cart.indexWhere((item) {
+      if (item['id'] != menu.id) return false;
+
+      final oldRecipe = item['selected_recipe'] as List;
+      final newRecipe = selectedRecipe;
+
+      if (oldRecipe.length != newRecipe.length) return false;
+
+      for (int i = 0; i < oldRecipe.length; i++) {
+        final oldId = oldRecipe[i]['stock_id'];
+        final newId = newRecipe[i]['stock_id'];
+
+        final oldSelected = oldRecipe[i]['is_selected'];
+        final newSelected = newRecipe[i]['is_selected'];
+
+        if (oldId != newId || oldSelected != newSelected) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+
     setState(() {
-      cart.add({
-        'id': menu.id,
-        'name': menu.name,
-        'price': menu.price,
-        'qty': 1,
-        'selected_recipe': selectedRecipe,
-      });
+      if (existingIndex != -1) {
+        cart[existingIndex]['qty']++;
+      } else {
+        cart.add({
+          'id': menu.id,
+          'name': menu.name,
+          'price': menu.price,
+          'qty': 1,
+          'selected_recipe': selectedRecipe,
+        });
+      }
     });
   }
 
-  void increaseQty(int index) async {
+  Future<void> increaseQty(int index) async {
     final item = cart[index];
     bool enough = await isStockSufficient(
       item['qty'] + 1,
@@ -453,10 +484,14 @@ class _TransaksiPageState extends State<TransaksiPage> {
     });
   }
 
-  int get total =>
-      cart.fold(0, (sum, item) => sum + (item['price'] * item['qty']) as int);
+  int get total {
+    return cart.fold<int>(
+      0,
+      (sum, item) => sum + ((item['price'] as int) * (item['qty'] as int)),
+    );
+  }
 
-  Future<void> handleSimpanTransaksi() async {
+  Future<void> handleSimpanTransaksi(BuildContext modalContext) async {
     setState(() => isLoading = true);
     final menus = await menuService.getMenus();
     validateCartStock(menus);
@@ -464,12 +499,20 @@ class _TransaksiPageState extends State<TransaksiPage> {
       await orderService.createOrder(widget.userId, total, cart);
       if (!mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("✅ Transaksi Berhasil!"),
-          backgroundColor: Colors.green,
-        ),
-      );
+      Flushbar(
+        message: "Transaksi berhasil",
+        duration: const Duration(seconds: 2),
+        margin: const EdgeInsets.all(16),
+        borderRadius: BorderRadius.circular(12),
+        flushbarPosition: FlushbarPosition.TOP,
+        backgroundColor: Colors.green,
+      ).show(context);
+
+      Future.delayed(const Duration(seconds: 2), () {
+        if (mounted && Navigator.canPop(context)) {
+          Navigator.pop(modalContext);
+        }
+      });
 
       setState(() {
         cart.clear();
@@ -477,13 +520,23 @@ class _TransaksiPageState extends State<TransaksiPage> {
       });
     } catch (e) {
       setState(() => isLoading = false);
-      _showErrorSnackBar(e.toString().replaceAll('Exception:', ''));
+      showTopNotification(e.toString().replaceAll('Exception:', ''));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final isDesktop = MediaQuery.of(context).size.width >= 800;
+
+    if (wasDesktop != isDesktop) {
+      wasDesktop = isDesktop;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
+      });
+    }
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -548,7 +601,7 @@ class _TransaksiPageState extends State<TransaksiPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${cart.length} Item",
+                "${cart.fold<int>(0, (sum, item) => sum + (item['qty'] as int))} Item",
                 style: GoogleFonts.poppins(
                   fontSize: 12,
                   color: Colors.grey[600],
@@ -566,34 +619,61 @@ class _TransaksiPageState extends State<TransaksiPage> {
           ),
           ElevatedButton(
             onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (context) => ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.75,
-                    child: _buildCartSidebar(),
-                  ),
-                ),
-              ).then((_) => setState(() {}));
+              if (MediaQuery.of(context).size.width < 800) {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+
+                  builder: (context) {
+                    return StatefulBuilder(
+                      builder: (context, setModalState) {
+                        return ClipRRect(
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
+
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.75,
+                            child: _buildMobileCartModal(setModalState),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ).then((_) => setState(() {}));
+              }
             },
+
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF6D4C41),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            child: Text(
-              "Lihat Pesanan",
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.shopping_cart_checkout,
+                  color: Colors.white,
+                  size: 18,
+                ),
+
+                const SizedBox(width: 8),
+
+                Text(
+                  "Lihat Pesanan",
+
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -732,14 +812,12 @@ class _TransaksiPageState extends State<TransaksiPage> {
   }
 
   Widget _buildMenuGrid() {
+    final isDesktop = MediaQuery.of(context).size.width >= 800;
     return StreamBuilder<List<MenuModel>>(
       stream: menuStream,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          if (snapshot.connectionState == ConnectionState.active &&
-              snapshot.data == null) {
-            return const Center(child: CircularProgressIndicator());
-          }
+        if (snapshot.connectionState == ConnectionState.waiting &&
+            initialMenus.isEmpty) {
           return AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             child: GridView.builder(
@@ -817,26 +895,29 @@ class _TransaksiPageState extends State<TransaksiPage> {
                   style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey),
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    setState(() {
-                      searchController.clear();
-                      searchQuery = "";
-                      selectedCategoryId = "all";
-                    });
-                  },
-                  icon: const Icon(Icons.refresh, color: Colors.white),
-                  label: Text(
-                    searchQuery.isNotEmpty ? "Reset Pencarian" : "Reset Filter",
-                    style: GoogleFonts.poppins(color: Colors.white),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFAF7705),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                if (!isDesktop)
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        searchController.clear();
+                        searchQuery = "";
+                        selectedCategoryId = "all";
+                      });
+                    },
+                    icon: const Icon(Icons.refresh, color: Colors.white),
+                    label: Text(
+                      searchQuery.isNotEmpty
+                          ? "Reset Pencarian"
+                          : "Reset Filter",
+                      style: GoogleFonts.poppins(color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFAF7705),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
           );
@@ -867,12 +948,12 @@ class _TransaksiPageState extends State<TransaksiPage> {
                         final recipe = await menuService.getRecipeForMenu(m.id);
 
                         if (recipe.isEmpty) {
-                          _showErrorSnackBar("Menu belum siap dijual");
+                          showTopNotification("Menu belum siap dijual");
                           return;
                         }
 
                         if (!m.status) {
-                          _showErrorSnackBar("Menu sedang tidak tersedia");
+                          showTopNotification("Menu sedang tidak tersedia");
                           return;
                         }
 
@@ -1043,7 +1124,19 @@ class _TransaksiPageState extends State<TransaksiPage> {
                           ElevatedButton(
                             onPressed: () {
                               Navigator.pop(context);
-                              clearCart();
+
+                              setState(() {
+                                cart.clear();
+                              });
+
+                              Flushbar(
+                                message: "Semua pesanan dihapus",
+                                duration: const Duration(seconds: 2),
+                                margin: const EdgeInsets.all(16),
+                                borderRadius: BorderRadius.circular(12),
+                                flushbarPosition: FlushbarPosition.TOP,
+                                backgroundColor: Colors.redAccent,
+                              ).show(this.context);
                             },
                             child: const Text("Hapus Semua"),
                           ),
@@ -1059,51 +1152,78 @@ class _TransaksiPageState extends State<TransaksiPage> {
           const Divider(height: 30),
           Expanded(
             child: cart.isEmpty
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.fastfood_outlined,
-                        size: 50,
-                        color: Colors.grey[300],
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        "Keranjang masih kosong",
-                        style: GoogleFonts.poppins(color: Colors.grey),
-                      ),
-                    ],
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.shopping_cart_checkout_rounded,
+                          size: 70,
+                          color: Colors.grey[300],
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        Text(
+                          "Belum ada pesanan",
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        Text(
+                          "Tambahkan menu untuk mulai transaksi",
+                          style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
+
+                        const SizedBox(height: 25),
+                      ],
+                    ),
                   )
                 : ListView.builder(
                     itemCount: cart.length,
                     itemBuilder: (context, index) {
                       final item = cart[index];
 
-                      return Dismissible(
-                        key: Key(item['id'] + index.toString()),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.redAccent,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(Icons.delete, color: Colors.white),
-                        ),
-                        onDismissed: (_) {
-                          setState(() {
-                            cart.removeAt(index);
-                          });
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("${item['name']} dihapus"),
-                              behavior: SnackBarBehavior.floating,
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Dismissible(
+                          key: UniqueKey(),
+                          direction: DismissDirection.endToStart,
+                          background: Container(
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent,
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          );
-                        },
-                        child: _buildCartItem(index),
+                            child: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                          ),
+                          onDismissed: (_) {
+                            setState(() {
+                              cart.remove(item);
+                            });
+
+                            Flushbar(
+                              message: "${item['name']} dihapus",
+                              duration: const Duration(seconds: 2),
+                              margin: const EdgeInsets.all(16),
+                              borderRadius: BorderRadius.circular(12),
+                              flushbarPosition: FlushbarPosition.TOP,
+                            ).show(context);
+                          },
+                          child: _buildCartItem(index),
+                        ),
                       );
                     },
                   ),
@@ -1132,10 +1252,224 @@ class _TransaksiPageState extends State<TransaksiPage> {
     );
   }
 
-  Widget _buildCartItem(int index) {
+  Widget _buildMobileCartModal(StateSetter setModalState) {
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.shopping_cart_outlined,
+                      color: Color(0xFFAF7705),
+                    ),
+
+                    const SizedBox(width: 10),
+
+                    Text(
+                      "Pesanan",
+                      style: GoogleFonts.poppins(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+
+                IconButton(
+                  onPressed: () {
+                    setModalState(() {
+                      cart.clear();
+                    });
+
+                    setState(() {});
+
+                    Navigator.pop(context);
+
+                    Flushbar(
+                      message: "Semua pesanan dihapus",
+                      duration: const Duration(seconds: 2),
+                      margin: const EdgeInsets.all(16),
+                      borderRadius: BorderRadius.circular(12),
+                      flushbarPosition: FlushbarPosition.TOP,
+                      backgroundColor: Colors.redAccent,
+                    ).show(this.context);
+                  },
+                  icon: const Icon(Icons.delete_sweep, color: Colors.redAccent),
+                ),
+              ],
+            ),
+          ),
+
+          Divider(height: 1, color: Colors.grey.shade300),
+
+          Expanded(
+            child: cart.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.shopping_cart_checkout_rounded,
+                          size: 70,
+                          color: Colors.grey[300],
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        Text(
+                          "Belum ada pesanan",
+
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        Text(
+                          "Tambahkan menu untuk mulai transaksi",
+
+                          style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.all(20),
+                    itemCount: cart.length,
+                    itemBuilder: (context, index) {
+                      final item = cart[index];
+
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Dismissible(
+                          key: UniqueKey(),
+                          direction: DismissDirection.endToStart,
+
+                          background: Container(
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                          ),
+
+                          onDismissed: (_) {
+                            final itemName = item['name'];
+
+                            setModalState(() {
+                              cart.remove(item);
+                            });
+
+                            setState(() {});
+
+                            Flushbar(
+                              message: "$itemName dihapus",
+                              duration: const Duration(seconds: 2),
+                              margin: const EdgeInsets.all(16),
+                              borderRadius: BorderRadius.circular(12),
+                              flushbarPosition: FlushbarPosition.TOP,
+                            ).show(this.context);
+
+                            if (cart.isEmpty) {
+                              Future.delayed(const Duration(seconds: 2), () {
+                                if (mounted) {
+                                  Navigator.of(this.context).pop();
+                                }
+                              });
+                            }
+                          },
+                          child: _buildCartItem(
+                            index,
+                            setModalState: setModalState,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+          ),
+
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(top: BorderSide(color: Colors.grey.shade300)),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Total Bayar",
+                      style: GoogleFonts.poppins(fontSize: 16),
+                    ),
+
+                    Text(
+                      "Rp $total",
+                      style: GoogleFonts.poppins(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFFAF7705),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 15),
+
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: cart.isEmpty
+                        ? null
+                        : () => handleSimpanTransaksi(context),
+
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF6D4C41),
+
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+
+                    child: Text(
+                      "SIMPAN TRANSAKSI",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCartItem(int index, {StateSetter? setModalState}) {
     final item = cart[index];
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.grey[50],
@@ -1158,6 +1492,46 @@ class _TransaksiPageState extends State<TransaksiPage> {
                     color: Colors.grey[600],
                   ),
                 ),
+                const SizedBox(height: 4),
+
+                Wrap(
+                  spacing: 5,
+                  runSpacing: 5,
+                  children: ((item['selected_recipe'] as List)).map<Widget>((
+                    r,
+                  ) {
+                    final stockName = r['stocks']['name'];
+                    final isSelected = r['is_selected'] == true;
+                    final isOptional = r['is_optional'] == true;
+
+                    if (!isOptional) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? const Color(0xFFAF7705).withOpacity(0.1)
+                            : Colors.red.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        isSelected ? stockName : "Tanpa $stockName",
+                        style: GoogleFonts.poppins(
+                          fontSize: 10,
+                          color: isSelected
+                              ? const Color(0xFFAF7705)
+                              : Colors.red,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
                 if (!isStockSufficientSync(item['selected_recipe'])) ...[
                   Icon(Icons.warning, color: Colors.red, size: 16),
                   Text(
@@ -1171,7 +1545,54 @@ class _TransaksiPageState extends State<TransaksiPage> {
           Row(
             children: [
               IconButton(
-                onPressed: () => decreaseQty(index),
+                onPressed: () {
+                  final itemName = item['name'];
+
+                  if (setModalState != null) {
+                    final isLastItem =
+                        cart[index]['qty'] == 1 && cart.length == 1;
+
+                    final willRemoveItem = cart[index]['qty'] == 1;
+
+                    setModalState(() {
+                      decreaseQty(index);
+                    });
+
+                    setState(() {});
+
+                    if (willRemoveItem) {
+                      Flushbar(
+                        message: "$itemName dihapus",
+                        duration: const Duration(seconds: 2),
+                        margin: const EdgeInsets.all(16),
+                        borderRadius: BorderRadius.circular(12),
+                        flushbarPosition: FlushbarPosition.TOP,
+                      ).show(this.context);
+                    }
+
+                    if (isLastItem) {
+                      Future.delayed(const Duration(seconds: 2), () {
+                        if (mounted) {
+                          Navigator.pop(this.context);
+                        }
+                      });
+                    }
+                  } else {
+                    final willRemoveItem = cart[index]['qty'] == 1;
+
+                    decreaseQty(index);
+
+                    if (willRemoveItem) {
+                      Flushbar(
+                        message: "$itemName dihapus",
+                        duration: const Duration(seconds: 2),
+                        margin: const EdgeInsets.all(16),
+                        borderRadius: BorderRadius.circular(12),
+                        flushbarPosition: FlushbarPosition.TOP,
+                      ).show(this.context);
+                    }
+                  }
+                },
                 icon: const Icon(Icons.remove_circle_outline, size: 20),
               ),
               Text(
@@ -1179,7 +1600,16 @@ class _TransaksiPageState extends State<TransaksiPage> {
                 style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
               ),
               IconButton(
-                onPressed: () => increaseQty(index),
+                onPressed: () async {
+                  if (setModalState != null) {
+                    await increaseQty(index);
+
+                    setModalState(() {});
+                    setState(() {});
+                  } else {
+                    await increaseQty(index);
+                  }
+                },
                 icon: const Icon(
                   Icons.add_circle_outline,
                   size: 20,
@@ -1198,7 +1628,9 @@ class _TransaksiPageState extends State<TransaksiPage> {
       width: double.infinity,
       height: 55,
       child: ElevatedButton(
-        onPressed: (cart.isEmpty || isLoading) ? null : handleSimpanTransaksi,
+        onPressed: (cart.isEmpty || isLoading)
+            ? null
+            : () => handleSimpanTransaksi(context),
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6D4C41),
           shape: RoundedRectangleBorder(

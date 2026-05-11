@@ -77,90 +77,96 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
         ),
         child: Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-         
-              TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 0, end: _rotation),
-                duration: const Duration(milliseconds: 1500),
-                curve: Curves.easeInOutBack,
-                builder: (context, double angle, child) {
-                  return Transform.rotate(angle: angle, child: child);
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(18),
-                  decoration: BoxDecoration(
-                    color: darkCoffee,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        blurRadius: 15,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.coffee_rounded,
-                    size: 70,
-                    color: ivoryColor,
-                  ),
-                ),
-              ),
-
-          
-              AnimatedSize(
-                duration: const Duration(milliseconds: 600),
-                curve: Curves.easeOutQuart,
-                child: _showText
-                    ? Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: AnimatedOpacity(
-                          duration: const Duration(milliseconds: 600),
-                          opacity: _showText ? 1.0 : 0.0,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Welcome",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 18,
-                                  color: Colors.white70,
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: 2,
-                                ),
-                              ),
-                              ShaderMask(
-                                blendMode: BlendMode.srcIn,
-                                shaderCallback: (bounds) =>
-                                    const LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        Color(0xFFB76212), 
-                                        Color(0xFFC88C0C), 
-                                      ],
-                                    ).createShader(bounds),
-                                child: Text(
-                                  "StarBud Coffee",
-                                  style: GoogleFonts.playfairDisplay(
-                                    fontSize: 40,
-                                    height: 1.0,
-                                    fontStyle: FontStyle.italic,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+             
+                  TweenAnimationBuilder<double>(
+                    tween: Tween<double>(begin: 0, end: _rotation),
+                    duration: const Duration(milliseconds: 1500),
+                    curve: Curves.easeInOutBack,
+                    builder: (context, double angle, child) {
+                      return Transform.rotate(angle: angle, child: child);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(18),
+                      decoration: BoxDecoration(
+                        color: darkCoffee,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 15,
+                            offset: const Offset(0, 8),
                           ),
-                        ),
-                      )
-                    : const SizedBox.shrink(),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.coffee_rounded,
+                        size: 70,
+                        color: ivoryColor,
+                      ),
+                    ),
+                  ),
+
+              
+                  AnimatedSize(
+                    duration: const Duration(milliseconds: 600),
+                    curve: Curves.easeOutQuart,
+                    child: _showText
+                        ? Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: AnimatedOpacity(
+                              duration: const Duration(milliseconds: 600),
+                              opacity: _showText ? 1.0 : 0.0,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Welcome",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      color: Colors.white70,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 2,
+                                    ),
+                                  ),
+                                  ShaderMask(
+                                    blendMode: BlendMode.srcIn,
+                                    shaderCallback: (bounds) =>
+                                        const LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Color(0xFFB76212), 
+                                            Color(0xFFC88C0C), 
+                                          ],
+                                        ).createShader(bounds),
+                                    child: Text(
+                                      "StarBud Coffee",
+                                      style: GoogleFonts.playfairDisplay(
+                                        fontSize: 40,
+                                        height: 1.0,
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

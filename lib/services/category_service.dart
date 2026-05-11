@@ -73,4 +73,15 @@ class CategoryService {
 
     return res.isNotEmpty;
   }
+
+  Future<bool> hasActiveMenu(String categoryId) async {
+    final res = await supabase
+        .from('menu')
+        .select('id')
+        .eq('category_id', categoryId)
+        .eq('status', true)
+        .limit(1);
+
+    return (res as List).isNotEmpty;
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:starbud_coffe/models/category_model.dart';
 import 'package:starbud_coffe/services/category_service.dart';
@@ -19,11 +20,14 @@ class _CategoryPageState extends State<CategoryPage> {
   final Color backgroundColor = Colors.white;
 
   String searchQuery = "";
+  Timer? _debounce;
   String selectedStatus = "Semua";
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _searchController.dispose();
+    _categoryController.dispose();
     super.dispose();
   }
 
@@ -37,39 +41,90 @@ class _CategoryPageState extends State<CategoryPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Manajemen Kategori",
-                style: GoogleFonts.poppins(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              ElevatedButton.icon(
-                onPressed: () => _showCategoryDialog(),
-                icon: const Icon(Icons.add, color: Colors.white, size: 18),
-                label: Text(
-                  "Tambah Kategori",
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final isMobile = constraints.maxWidth < 600;
+
+              if (isMobile) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Manajemen Kategori",
+                      style: GoogleFonts.poppins(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: () => _showCategoryDialog(),
+                        icon: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                        label: Text(
+                          "Tambah Kategori",
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryColor,
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Manajemen Kategori",
+                    style: GoogleFonts.poppins(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 15,
+
+                  ElevatedButton.icon(
+                    onPressed: () => _showCategoryDialog(),
+                    icon: const Icon(Icons.add, color: Colors.white, size: 18),
+                    label: Text(
+                      "Tambah Kategori",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 15,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           ),
 
           const SizedBox(height: 25),
@@ -79,8 +134,14 @@ class _CategoryPageState extends State<CategoryPage> {
               TextField(
                 controller: _searchController,
                 onChanged: (val) {
-                  setState(() {
-                    searchQuery = val.toLowerCase();
+                  if (_debounce?.isActive ?? false) {
+                    _debounce!.cancel();
+                  }
+
+                  _debounce = Timer(const Duration(milliseconds: 300), () {
+                    setState(() {
+                      searchQuery = val.toLowerCase();
+                    });
                   });
                 },
                 decoration: InputDecoration(
@@ -280,6 +341,28 @@ class _CategoryPageState extends State<CategoryPage> {
                                 activeColor: primaryColor,
                                 onChanged: (val) async {
                                   if (!val) {
+                                    final hasActiveMenu = await _categoryService
+                                        .hasActiveMenu(c.id);
+
+                                    if (hasActiveMenu) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => AlertDialog(
+                                          title: const Text("Tidak Bisa"),
+                                          content: const Text(
+                                            "Kategori masih dipakai menu aktif",
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text("OK"),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                      return;
+                                    }
                                     final confirm = await showDialog<bool>(
                                       context: context,
                                       builder: (dialogContext) => AlertDialog(
@@ -289,17 +372,28 @@ class _CategoryPageState extends State<CategoryPage> {
                                           ),
                                         ),
                                         title: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Icon(
                                               Icons.warning_amber_rounded,
                                               color: Colors.orange,
                                             ),
+
                                             const SizedBox(width: 8),
-                                            const Text("Nonaktifkan Kategori"),
+
+                                            Expanded(
+                                              child: Text(
+                                                "Nonaktifkan Kategori",
+                                                style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                         content: Text(
-                                          "Kategori '${c.name}' akan dinonaktifkan.\nMenu yang memakai kategori ini bisa ikut terdampak.\n\nLanjutkan?",
+                                          "Kategori '${c.name}' akan dinonaktifkan.\nLanjutkan?",
                                           style: GoogleFonts.poppins(),
                                         ),
                                         actions: [
@@ -336,6 +430,9 @@ class _CategoryPageState extends State<CategoryPage> {
                                   showDialog(
                                     context: this.context,
                                     builder: (dialogContext) => AlertDialog(
+                                      insetPadding: const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
                                       title: const Text("Berhasil"),
                                       content: Text(
                                         val
@@ -485,6 +582,23 @@ class _CategoryPageState extends State<CategoryPage> {
                       return;
                     }
 
+                    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(input)) {
+                      showDialog(
+                        context: this.context,
+                        builder: (_) => AlertDialog(
+                          title: const Text("Gagal"),
+                          content: const Text("Kategori hanya boleh huruf"),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text("OK"),
+                            ),
+                          ],
+                        ),
+                      );
+                      return;
+                    }
+
                     if (input.isEmpty) return;
 
                     if (isEdit && input == initialName) {
@@ -554,46 +668,84 @@ class _CategoryPageState extends State<CategoryPage> {
 
   void _confirmDelete(CategoryModel category) {
     showDialog(
-      context: this.context,
-      builder: (dialogContext) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text("Hapus Kategori"),
-        content: Text(
-          "Apakah kamu yakin ingin menghapus kategori '${category.name}'?",
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: const Text("Batal"),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            onPressed: () async {
-              await _categoryService.deleteCategory(category.id);
+      context: context,
+      builder: (dialogContext) {
+        bool isDeleting = false;
 
-              if (!mounted) return;
+        return StatefulBuilder(
+          builder: (context, setStateDialog) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
 
-              Navigator.pop(context);
-              _refreshData();
+              title: const Text("Hapus Kategori"),
 
-              showDialog(
-                context: this.context,
-                builder: (dialogContext) => AlertDialog(
-                  title: const Text("Berhasil"),
-                  content: const Text("Kategori berhasil dihapus"),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(dialogContext),
-                      child: const Text("OK"),
-                    ),
-                  ],
+              content: Text(
+                "Apakah kamu yakin ingin menghapus kategori '${category.name}'?",
+              ),
+
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(dialogContext);
+                  },
+                  child: const Text("Batal"),
                 ),
-              );
-            },
-            child: const Text("Hapus"),
-          ),
-        ],
-      ),
+
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+
+                  onPressed: isDeleting
+                      ? null
+                      : () async {
+                          setStateDialog(() {
+                            isDeleting = true;
+                          });
+
+                          try {
+                            await _categoryService.deleteCategory(category.id);
+
+                            if (mounted) {
+                              Navigator.pop(dialogContext);
+                            }
+                          } catch (e) {
+                            setStateDialog(() {
+                              isDeleting = false;
+                            });
+
+                            showDialog(
+                              context: this.context,
+                              builder: (_) => AlertDialog(
+                                title: const Text("Gagal"),
+                                content: Text(e.toString()),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text("OK"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        },
+
+                  child: isDeleting
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text("Hapus"),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }
